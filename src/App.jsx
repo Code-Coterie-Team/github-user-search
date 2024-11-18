@@ -6,12 +6,10 @@ import Sidebar from "./component/Sidebar";
 function App(){
 
   return(
-    <div className="main h-full w-full bg-white justify-center">
+    <div className="main h-full w-full bg-white  grid ">
       <Header/>
       <Sidebar/>
       
-      
-    
     </div>
   )
   

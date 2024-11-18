@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend:{
+      colors:{
+        purple:"#635fc7",
+        buttoncolor:'#f0effa',
+      }
+
+    }
+      
   },
   plugins: [],
 }
