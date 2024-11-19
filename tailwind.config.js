@@ -9,7 +9,12 @@ export default {
       colors:{
         purple:"#635fc7",
         buttoncolor:'#f0effa',
+      },
+      fontFamily:{
+          'sans':['Plus Jakarta Sans', 'sans-serif'],
       }
+      ,
+     
 
     }
       
