@@ -7,8 +7,10 @@ export default {
   theme: {
     extend:{
       colors:{
-        purple:"#635fc7",
+        purpledo:"#635fc7",
         buttoncolor:'#f0effa',
+        bgmain:'#F4F7FD',
+        
       },
       fontFamily:{
           'sans':['Plus Jakarta Sans', 'sans-serif'],
