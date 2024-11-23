@@ -1,40 +1,116 @@
-import { useState  } from "react";
+import { useEffect, useRef, useState  } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { setSelectBoard } from "../features/boardSlice";
+import { setSaveData } from "../features/savedataSlice";
 
 function Header(){
     const selectBoard=useSelector((state)=>state.board.selectBoard);
-    const [modaltask,setMoalTask]=useState(false);
+    
+    const [modalTask,setModalTask]=useState(false);
     const dispatch=useDispatch();
     const [isOpen,setIsOpen]=useState(false);
     const [modalDelete,setModalDelete]=useState(false);
+    const modalTakRef=useRef(null);
+    const [taskTitle,setTaskTitle]=useState('');
+    const [taskDescriotion,setTaskDescription]=useState('');
+    const [subtask,setSubtask]=useState([]);
+    const [seletColumn,setSeclectCoulmn]=useState('');
+
+   
+    
+    // useEffect(()=>{
+    //     const storeData=localStorage.getItem('saveData');
+    //     const parseData=storeData ? JSON.parse(storeData):[];
+    //     dispatch(setSaveData(parseData));
+
+    // },[dispatch])
+   
     const toggleMenu=()=>{
         setIsOpen(!isOpen);
     };
+    const handelClickDelModal= (event)=>{
+        if (modalTakRef.current && !modalTakRef.current.contains(event.target)) {
+            setModalTask(false);
+        }
+
+    }
+   
+    
+    useEffect(() => {
+        if (modalTask) {
+            document.addEventListener( 'mousedown',handelClickDelModal);
+        } else {
+            document.removeEventListener('mousedown',handelClickDelModal);
+        };
+        return () => {
+            document.removeEventListener('mousedown',handelClickDelModal);
+        };
+        }, [modalTask]);
+
+
     const handelDelet=()=>{
         if(selectBoard){
-            const storeData=JSON.parse(localStorage.getItem('saveData')|| []);
+            const storeData=JSON.parse(localStorage.getItem('saveNewData')|| []);
             const  updateData=storeData.filter(item=>item.Name !==selectBoard.Name);
-            localStorage.setItem('saveData',JSON.stringify(updateData));
+            localStorage.setItem('saveNewData',JSON.stringify(updateData));
 
             dispatch(setSelectBoard(null));
         }
     }
-    const handelNewTak=()=>{
-        setMoalTask(true);
+    const handelNewTask=()=>{
+        setModalTask(true);
     }
 
+   const handelSaveTask=()=>{
+     
+     if(selectBoard && seletColumn){
+        
+        const updateColumns=selectBoard.columns.map((col)=>{
+            if(col.name===seletColumn){
+                return{
+                    ...col,
+                    tasks:[
+                        ...col.tasks,{
+                            title:taskTitle,description:taskDescriotion,subtasks:[subtask]
+                        }
+                    ],
+                };
+            }
+            return col;
+        });
+        dispatch(setSelectBoard({...selectBoard,columns:updateColumns}));
+        const storeData=JSON.parse(localStorage.getItem('saveData')||'[]');
+        console.log(storeData);
+        const updateStoreData=storeData.map((item)=>{
+            if(item.Name===selectBoard.Name){
+                return{...item,columns:updateColumns};
+            }
+            return item;
+        });
+        localStorage.setItem('saveData',JSON.stringify(updateStoreData));
 
+        setTaskTitle('');
+        setTaskDescription('');
+        setSubtask('');
+        setSeclectCoulmn('');
+        setModalTask(false);
+     };
+   }
+    // useEffect(() => {
+    //       const store=localStorage.setItem('saveData', JSON.stringify(saveData));
+    //       dispatch(setSaveData(store))
+    // }, [dispatch]);
     return(
     
         <div className="bg-white h-28 border-b-2 justify-left align-middle grid grid-cols-6  ">
             <div className="flex text-center   border-r-2  p-8   col-span-1 gap-6">
-                <img src="" alt="" />
+                <img src="./src/assets/logo-dark.8590e096.svg" alt="" />
+
             </div>
             <div className=" p-3  flex  items-center justify-between  col-start-2  col-end-7">
                 <h2  className="">{selectBoard ? selectBoard.Name : "No Board Found"}</h2>
                 <div className="flex  gap-8">
-                    <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={handelNewTak}>+ Add New Task</button>
+                    <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={handelNewTask}>+ Add New Task</button>
                     <div className=" relative">
                         <div className="menu-icon flex cursor-pointer flex-col gap-1" onClick={toggleMenu} >
                             <div className=" w-1 h-1 bg-slate-500 rounded-full " ></div>
@@ -54,7 +130,7 @@ function Header(){
 
             </div>
             {modalDelete && (
-                <div className="bg-black/40 fixed w-full h-full top-0 left-0">
+                <div  ref={modalTakRef}className="bg-black/40 fixed w-full h-full top-0 left-0">
                     <div className="bg-white fixed top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl">
                         <span className="text-red-400">Delete this board?</span>
                         <span className="text-gray-400 text-xs">Are you sure you want to delete the {selectBoard.Name} board? This action will remove all columns and tasks and cannot be reversed.</span>
@@ -68,23 +144,30 @@ function Header(){
                )
 
             }
-            <div>
-                {modaltask &&(
+          
+                {modalTask &&(
                         <div className="bg-black/40 fixed top-0 left-0 h-full w-full">
-                            <div className="bg-white fixed top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl" >
+                            <div className="bg-white fixed top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl" ref={modalTakRef} >
                                 <label className="text-gray-400" >Title</label>
-                                <input type="text" className="border-2" />
+                                <input type="text" className="border-2" value={taskTitle} onChange={(e)=>setTaskTitle(e.target.value)}/>
                                 <label className="text-gray-400">Description</label>
-                                <input type="text" className="border-2 h-20" />
+                                <input type="text" className="border-2 h-20" value={taskDescriotion} onChange={(e)=> setTaskDescription(e.target.value)} />
                                 <label  className="text-gray-400">Subtasks</label>
-                                <input type="text" className="border-2 " />
+                                <input type="text" className="border-2 " value={subtask} onChange={(e)=>setSubtask(e.target.value)} />
                                 <button className="bg-buttoncolor text-purpledo rounded-2xl">+ Add Ne Subtask</button>
                                 <label className="text-gray-400" >Status</label>
-                                <button className=" rounded-2xl bg-purpledo text-white h-10">Create Task</button>
+                                <select className="border-2 rounded-2xl p-2" value={seletColumn} onChange={(e)=>setSeclectCoulmn(e.target.value)}>
+                                    {selectBoard.columns.map((col,index)=>(
+                                        <option key={index} value={col.name}>{col.name}</option>
+                                    )
+
+                                    )}
+                                </select>
+                                <button className=" rounded-2xl bg-purpledo text-white h-10" onClick={handelSaveTask}>Create Task</button>
                             </div>
                         </div>
                     )}
-            </div>
+            
             
 
         </div>
