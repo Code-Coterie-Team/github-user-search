@@ -4,7 +4,7 @@ import { createSlice} from "@reduxjs/toolkit";
 const saveDataSlice=createSlice({
     name:'data',
     initialState:{
-        data:[{Name:'',columns:[{ name: '', tasks: [{title:'',description:'',subtasks:[]}] }]}],
+        data:[],
     },
     reducers:{
         setSaveData:(state,action)=>{
@@ -12,5 +12,5 @@ const saveDataSlice=createSlice({
         },
         
 }});
-export const {setSaveData}=saveDataSlice.actions
+export const {setSaveData}=saveDataSlice.actions    
 export default saveDataSlice.reducer;

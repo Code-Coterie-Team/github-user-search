@@ -15,16 +15,11 @@ function Header(){
     const [taskDescriotion,setTaskDescription]=useState('');
     const [subtask,setSubtask]=useState([]);
     const [seletColumn,setSeclectCoulmn]=useState('');
-
-   
-    
-    // useEffect(()=>{
-    //     const storeData=localStorage.getItem('saveData');
-    //     const parseData=storeData ? JSON.parse(storeData):[];
-    //     dispatch(setSaveData(parseData));
-
-    // },[dispatch])
-   
+    const saveNewData=useSelector((state)=>state.data.data);
+    const [modaledit,setModalEdit]=useState(false);
+    const [editBoardName,setEditBoardName]=useState(selectBoard ?.Name);
+    const[editColumns,setEditColumns]=useState(selectBoard?.columns.map(col=>col.name) );
+    console.log(editColumns);
     const toggleMenu=()=>{
         setIsOpen(!isOpen);
     };
@@ -48,22 +43,18 @@ function Header(){
         }, [modalTask]);
 
 
-    const handelDelet=()=>{
+    const handelDelete=()=>{
         if(selectBoard){
-            const storeData=JSON.parse(localStorage.getItem('saveNewData')|| []);
+            const storeData=JSON.parse(localStorage.getItem('saveNewData'));
             const  updateData=storeData.filter(item=>item.Name !==selectBoard.Name);
             localStorage.setItem('saveNewData',JSON.stringify(updateData));
 
-            dispatch(setSelectBoard(null));
+            dispatch(setSelectBoard(saveNewData));
         }
     }
-    const handelNewTask=()=>{
-        setModalTask(true);
-    }
 
-   const handelSaveTask=()=>{
-     
-     if(selectBoard && seletColumn){
+    const handelSaveTask=()=>{
+        if(selectBoard && seletColumn){
         
         const updateColumns=selectBoard.columns.map((col)=>{
             if(col.name===seletColumn){
@@ -79,15 +70,15 @@ function Header(){
             return col;
         });
         dispatch(setSelectBoard({...selectBoard,columns:updateColumns}));
-        const storeData=JSON.parse(localStorage.getItem('saveData')||'[]');
-        console.log(storeData);
+        const storeData=JSON.parse(localStorage.getItem('saveNewData')||'[]');
+        
         const updateStoreData=storeData.map((item)=>{
             if(item.Name===selectBoard.Name){
                 return{...item,columns:updateColumns};
             }
             return item;
         });
-        localStorage.setItem('saveData',JSON.stringify(updateStoreData));
+        localStorage.setItem('saveNewData',JSON.stringify(updateStoreData));
 
         setTaskTitle('');
         setTaskDescription('');
@@ -96,10 +87,44 @@ function Header(){
         setModalTask(false);
      };
    }
-    // useEffect(() => {
-    //       const store=localStorage.setItem('saveData', JSON.stringify(saveData));
-    //       dispatch(setSaveData(store))
-    // }, [dispatch]);
+   useEffect(() => {
+    const storeData =localStorage.getItem('saveNewData');
+    if(storeData){
+        const parsedData = storeData ? JSON.parse(storeData) : [];
+    
+        dispatch(setSaveData(parsedData));
+    }
+    }, [dispatch]);
+    const handelEditBoard=()=>{
+        if(selectBoard){
+            const storeData=JSON.parse(localStorage.getItem('saveNewData'));
+           
+            const updateData=storeData.map((item)=>{
+                if(item.name===selectBoard.name){
+                    setModalEdit(true);
+                    setEditBoardName(selectBoard.Name);
+                    setEditColumns(selectBoard.columns.map(col=>col.name));
+
+                }}
+            )
+        }
+    
+    }
+    const handelDeleteColumn =(col)=>{
+        const updateData=editColumns.filter(item=> item!==col);
+           
+
+            }
+    
+    const addNewColumn=()=>{
+        if(editColumns.length<6){
+            setEditColumns(prev=>({
+                ...prev,
+                column:[...prev,{name:'',tasks:[]}]
+            }))
+        }
+    }
+
     return(
     
         <div className="bg-white h-28 border-b-2 justify-left align-middle grid grid-cols-6  ">
@@ -110,7 +135,7 @@ function Header(){
             <div className=" p-3  flex  items-center justify-between  col-start-2  col-end-7">
                 <h2  className="">{selectBoard ? selectBoard.Name : "No Board Found"}</h2>
                 <div className="flex  gap-8">
-                    <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={handelNewTask}>+ Add New Task</button>
+                    <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={()=>setModalTask(true)}>+ Add New Task</button>
                     <div className=" relative">
                         <div className="menu-icon flex cursor-pointer flex-col gap-1" onClick={toggleMenu} >
                             <div className=" w-1 h-1 bg-slate-500 rounded-full " ></div>
@@ -121,7 +146,7 @@ function Header(){
                     {isOpen && (
                     <div className=" absolute bg-white w-28 z-50 top-20 right-2   p-2">
                         <ul>
-                            <li className="text-gray-300" onClick={()=>handelOPtion('Edit Board')}>Edit Board</li>
+                            <li className="text-gray-300" onClick={handelEditBoard}>Edit Board</li>
                             <li className="text-red-400 cursor-pointer" onClick={()=>(setModalDelete(true))} >Delete Board </li>
                         </ul>
                     </div>
@@ -129,13 +154,14 @@ function Header(){
                 </div>
 
             </div>
+            {/* modal delete */}
             {modalDelete && (
                 <div  ref={modalTakRef}className="bg-black/40 fixed w-full h-full top-0 left-0">
                     <div className="bg-white fixed top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl">
                         <span className="text-red-400">Delete this board?</span>
                         <span className="text-gray-400 text-xs">Are you sure you want to delete the {selectBoard.Name} board? This action will remove all columns and tasks and cannot be reversed.</span>
                         <div className="flex gap-4 justify-center"> 
-                            <button className="bg-red-400 rounded-full text-white w-1/2" onClick={handelDelet}>Delete</button>
+                            <button className="bg-red-400 rounded-full text-white w-1/2" onClick={handelDelete}>Delete</button>
                             <button className="bg-slate-300 rounded-full text-purple w-1/2" onClick={()=>{setModalDelete(false)}}>Cancel</button>
                         </div>
                     </div>
@@ -143,8 +169,8 @@ function Header(){
 
                )
 
-            }
-          
+            }  
+            {/* save task in this modal */}
                 {modalTask &&(
                         <div className="bg-black/40 fixed top-0 left-0 h-full w-full">
                             <div className="bg-white fixed top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl" ref={modalTakRef} >
@@ -168,7 +194,45 @@ function Header(){
                         </div>
                     )}
             
-            
+            {/* edit modal */}
+            {modaledit && (
+                <div className="bg-black/40 fixed top-0 left-0 h-full w-screen">
+                    <div className="bg-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
+                    -translate-x-1/2 -translate-y-1/2 fixed p-8 rounded  ">
+                        <div className="text-black">Edit Board </div>
+                         <label className="text-gray-400 text-sm" >Name</label>
+                        <input type="text" value={editBoardName} onChange={(e)=>{
+                            setEditBoardName(e.target.value)}} className="border-2 rounded-sm p-2 text-sm"/>
+                        <label className="text-gray-400" >columns</label>
+                           
+                                { editColumns && editColumns.map((col,index)=>{
+                                    return(
+                                        
+                                        <div className="flex  gap-1 w-full">
+
+                                            <input type="text"  value={col}
+                                                key={index} 
+                                                placeholder={`Column ${index + 1}`} 
+                                                onChange={(e)=>{
+                                                const newCoulmns=[...editColumns];
+                                                newCoulmns[index]=e.target.value;
+                                                setEditColumns(newCoulmns);}}
+                                                className="border-2 rounded-sm p-2 w-full"
+                                            />
+                                            <button className="bg-transparent h-5 w-5 rounded-full text-gray-400" onClick={handelDeleteColumn(col)}>X</button>
+                                        </div>
+
+                                    )
+                                    }) }
+                    
+                        
+                            <button className="rounded-2xl bg-buttoncolor text-purpledo w-full h-10 " onClick={addNewColumn}>+add new column</button>
+                            <button className="rounded-2xl bg-purpledo text-white h-10 ">save changes</button>
+                            
+                        
+                    </div>
+                </div>
+            )}
 
         </div>
 
