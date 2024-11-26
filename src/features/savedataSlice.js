@@ -1,16 +1,17 @@
 import { createSlice} from "@reduxjs/toolkit";
 
 
-const saveDataSlice=createSlice({
-    name:'data',
+const saveBoardSlice=createSlice({
+    name:'boardsave',
     initialState:{
-        data:[],
+        boardsave:[{name:'',columns:[{ name: '', tasks: [{title:'',description:'',subtasks:[]},] }]}]
+            
     },
     reducers:{
-        setSaveData:(state,action)=>{
-            state.data=action.payload ;
+        setSaveboard:(state,action)=>{
+            state.boardsave=action.payload ;
         },
         
 }});
-export const {setSaveData}=saveDataSlice.actions    
-export default saveDataSlice.reducer;
+export const {setSaveboard}=saveBoardSlice.actions    
+export default saveBoardSlice.reducer;

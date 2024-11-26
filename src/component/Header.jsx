@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState  } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { setSelectBoard } from "../features/boardSlice";
-import { setSaveData } from "../features/savedataSlice";
+import { setSaveboard } from "../features/savedataSlice";
+
 
 function Header(){
     const selectBoard=useSelector((state)=>state.board.selectBoard);
-    
+    const {boardsave}=useSelector((state)=>state.boardsave);
     const [modalTask,setModalTask]=useState(false);
     const dispatch=useDispatch();
     const [isOpen,setIsOpen]=useState(false);
@@ -14,12 +15,17 @@ function Header(){
     const [taskTitle,setTaskTitle]=useState('');
     const [taskDescriotion,setTaskDescription]=useState('');
     const [subtask,setSubtask]=useState([]);
+    console.log(selectBoard);
     const [seletColumn,setSeclectCoulmn]=useState('');
-    const saveNewData=useSelector((state)=>state.data.data);
     const [modaledit,setModalEdit]=useState(false);
     const [editBoardName,setEditBoardName]=useState(selectBoard ?.Name);
-    const[editColumns,setEditColumns]=useState(selectBoard?.columns.map(col=>col.name) );
-    console.log(editColumns);
+    const[editColumns,setEditColumns]=useState(() => {
+        if (selectBoard && Array.isArray(selectBoard.columns)) {
+            return selectBoard.columns.map(col => col.name);
+        }
+        return [];
+    });
+  
     const toggleMenu=()=>{
         setIsOpen(!isOpen);
     };
@@ -45,11 +51,11 @@ function Header(){
 
     const handelDelete=()=>{
         if(selectBoard){
-            const storeData=JSON.parse(localStorage.getItem('saveNewData'));
-            const  updateData=storeData.filter(item=>item.Name !==selectBoard.Name);
+            
+            const  updateData=boardsave.filter(item=>item.Name !==selectBoard.Name);
             localStorage.setItem('saveNewData',JSON.stringify(updateData));
 
-            dispatch(setSelectBoard(saveNewData));
+            dispatch(setSaveboard(updateData));
         }
     }
 
@@ -92,39 +98,51 @@ function Header(){
     if(storeData){
         const parsedData = storeData ? JSON.parse(storeData) : [];
     
-        dispatch(setSaveData(parsedData));
+        dispatch(setSaveboard(parsedData));
     }
     }, [dispatch]);
-    const handelEditBoard=()=>{
-        if(selectBoard){
-            const storeData=JSON.parse(localStorage.getItem('saveNewData'));
-           
-            const updateData=storeData.map((item)=>{
-                if(item.name===selectBoard.name){
-                    setModalEdit(true);
-                    setEditBoardName(selectBoard.Name);
-                    setEditColumns(selectBoard.columns.map(col=>col.name));
 
-                }}
-            )
-        }
-    
+    const handeledit=()=>{
+        setModalEdit(!modaledit);
+                   
     }
+    
     const handelDeleteColumn =(col)=>{
-        const updateData=editColumns.filter(item=> item!==col);
-           
-
+        const updateData=editColumns.filter(item=> item!== col);
+        setEditColumns(updateData)
+        const storeData=JSON.parse(localStorage.getItem('saveNewData'));
+        const upadateStoreData=storeData.map(item=>{
+            if(item.name === selectBoard.Name){
+                return{
+                    ...item,
+                    columns:updateData.map(name=>({name,tasks:[]}))
+                }
             }
-    
-    const addNewColumn=()=>{
-        if(editColumns.length<6){
-            setEditColumns(prev=>({
-                ...prev,
-                column:[...prev,{name:'',tasks:[]}]
-            }))
-        }
-    }
+           
+            return item
+        })
+        localStorage.setItem('saveNewData',JSON.stringify(upadateStoreData)) 
+        setSelectBoard(prevBoard => ({
+            ...prevBoard,
+            columns:updateData.map(name => ({ name, tasks: [] }))
+        }));
 
+        }
+    
+    const handelSaveEdit=()=>{
+        const updateData=boardsave.map(item=>{
+            if(item.Name === selectBoard.Name){
+                return{
+                    ...item,
+                    columns:editColumns.map(name=>({name,tasks:[]}))
+                }
+            }
+            return item
+        })
+        dispatch(setSelectBoard(updateData));
+        localStorage.setItem('saveNewData', JSON.stringify(updateData));
+        setModalEdit(false)
+    }
     return(
     
         <div className="bg-white h-28 border-b-2 justify-left align-middle grid grid-cols-6  ">
@@ -135,7 +153,7 @@ function Header(){
             <div className=" p-3  flex  items-center justify-between  col-start-2  col-end-7">
                 <h2  className="">{selectBoard ? selectBoard.Name : "No Board Found"}</h2>
                 <div className="flex  gap-8">
-                    <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={()=>setModalTask(true)}>+ Add New Task</button>
+                    <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={()=>(setModalTask(true))}>+ Add New Task</button>
                     <div className=" relative">
                         <div className="menu-icon flex cursor-pointer flex-col gap-1" onClick={toggleMenu} >
                             <div className=" w-1 h-1 bg-slate-500 rounded-full " ></div>
@@ -146,7 +164,7 @@ function Header(){
                     {isOpen && (
                     <div className=" absolute bg-white w-28 z-50 top-20 right-2   p-2">
                         <ul>
-                            <li className="text-gray-300" onClick={handelEditBoard}>Edit Board</li>
+                            <li className="text-gray-300" onClick={handeledit}>Edit Board</li>
                             <li className="text-red-400 cursor-pointer" onClick={()=>(setModalDelete(true))} >Delete Board </li>
                         </ul>
                     </div>
@@ -172,8 +190,8 @@ function Header(){
             }  
             {/* save task in this modal */}
                 {modalTask &&(
-                        <div className="bg-black/40 fixed top-0 left-0 h-full w-full">
-                            <div className="bg-white fixed top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl" ref={modalTakRef} >
+                        <div   className="bg-black/40 fixed top-0 left-0 h-full w-full">
+                            <div className="bg-white fixed top-1/2 left-1/2 w-96 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl" ref={modalTakRef}  >
                                 <label className="text-gray-400" >Title</label>
                                 <input type="text" className="border-2" value={taskTitle} onChange={(e)=>setTaskTitle(e.target.value)}/>
                                 <label className="text-gray-400">Description</label>
@@ -183,7 +201,9 @@ function Header(){
                                 <button className="bg-buttoncolor text-purpledo rounded-2xl">+ Add Ne Subtask</button>
                                 <label className="text-gray-400" >Status</label>
                                 <select className="border-2 rounded-2xl p-2" value={seletColumn} onChange={(e)=>setSeclectCoulmn(e.target.value)}>
+                                    <option value="" selected></option>
                                     {selectBoard.columns.map((col,index)=>(
+                                        
                                         <option key={index} value={col.name}>{col.name}</option>
                                     )
 
@@ -200,34 +220,34 @@ function Header(){
                     <div className="bg-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
                     -translate-x-1/2 -translate-y-1/2 fixed p-8 rounded  ">
                         <div className="text-black">Edit Board </div>
-                         <label className="text-gray-400 text-sm" >Name</label>
-                        <input type="text" value={editBoardName} onChange={(e)=>{
-                            setEditBoardName(e.target.value)}} className="border-2 rounded-sm p-2 text-sm"/>
+                        <label className="text-gray-400 text-sm" >Name</label>
+                        <input type="text" value={selectBoard.Name} onChange={(e)=>{
+                            setSelectBoard(e.target.value)}} className="border-2 rounded-sm p-2 text-sm"/>
                         <label className="text-gray-400" >columns</label>
-                           
-                                { editColumns && editColumns.map((col,index)=>{
+                    
+                                {selectBoard.columns.map((col,index)=>{
                                     return(
                                         
                                         <div className="flex  gap-1 w-full">
 
-                                            <input type="text"  value={col}
+                                            <input type="text"  value={col.name}
                                                 key={index} 
                                                 placeholder={`Column ${index + 1}`} 
                                                 onChange={(e)=>{
-                                                const newCoulmns=[...editColumns];
+                                                const newCoulmns=[...selectBoard.columns];
                                                 newCoulmns[index]=e.target.value;
-                                                setEditColumns(newCoulmns);}}
+                                                dispatch(selectBoard.columns((newCoulmns)))}}
                                                 className="border-2 rounded-sm p-2 w-full"
                                             />
-                                            <button className="bg-transparent h-5 w-5 rounded-full text-gray-400" onClick={handelDeleteColumn(col)}>X</button>
+                                            <button className="bg-transparent h-5 w-5 rounded-full text-gray-400" onClick={(index)=>(handelDeleteColumn(col))}>X</button>
                                         </div>
 
                                     )
                                     }) }
                     
                         
-                            <button className="rounded-2xl bg-buttoncolor text-purpledo w-full h-10 " onClick={addNewColumn}>+add new column</button>
-                            <button className="rounded-2xl bg-purpledo text-white h-10 ">save changes</button>
+                            <button className="rounded-2xl bg-buttoncolor text-purpledo w-full h-10 " >+add new column</button>
+                            <button className="rounded-2xl bg-purpledo text-white h-10 " onClick={handelSaveEdit}>save changes</button>
                             
                         
                     </div>
