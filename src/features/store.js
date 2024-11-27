@@ -8,7 +8,7 @@ const store=configureStore({
     reducer:{
         board: boardSlice, 
         boardsave:saveBoardSlice,
-        modalDelete:modalDeleteSlice,
+        modals:modalDeleteSlice,
     },
 })
 

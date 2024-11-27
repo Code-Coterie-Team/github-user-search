@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState  } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { setSelectBoard } from "../features/boardSlice";
+
 import { setSaveboard } from "../features/savedataSlice";
 import ModalDelete from "./ModalDelete";
-import { setDeleteModal } from "../features/modalSlice";
+import { setDeleteModal,setShowTaskModal } from "../features/modalSlice";
 import ModalBoard from "./BoardModal";
 import ModalTask from "./TaskModal";
+import { setSelectBoard } from "../features/boardSlice";
 
 
 function Header(){
     const selectBoard=useSelector((state)=>state.board.selectBoard);
-    
+    console.log(selectBoard);
     const {boardsave}=useSelector((state)=>state.boardsave);
-    const [modalTask,setModalTask]=useState(false);
+    const {showTaskModal}=useSelector((state)=>state.modals)
     const dispatch=useDispatch();
     const [isOpen,setIsOpen]=useState(false);
    
@@ -26,30 +27,18 @@ function Header(){
         }
         return [];
     });
-    const {modalDelete}=useSelector((state)=>state.modalDelete);
-
+    const [newColumnName, setNewColumnName] = useState('');
+    const[isShoeNewCoulmn,setIsShowNewColumn]=useState(false);
+    const {modalDelete}=useSelector((state)=>state.modals);
+    
 
     const toggleMenu=()=>{
         setIsOpen(!isOpen);
     };
-    const handelClickDelModal= (event)=>{
-        if (modalTakRef.current && !modalTakRef.current.contains(event.target)) {
-            setModalTask(false);
-        }
-
-    }
    
+
     
-    useEffect(() => {
-        if (modalTask) {
-            document.addEventListener( 'mousedown',handelClickDelModal);
-        } else {
-            document.removeEventListener('mousedown',handelClickDelModal);
-        };
-        return () => {
-            document.removeEventListener('mousedown',handelClickDelModal);
-        };
-        }, [modalTask]);
+    
 
     useEffect(() => {
     const storeData =localStorage.getItem('saveNewData');
@@ -82,26 +71,64 @@ function Header(){
     }
     
     const handelSaveEdit=()=>{
-        const updateData=boardsave.map(item=>{
-            if(item.Name === selectBoard.Name){
-                return{
-                    ...item,
-                    columns:editColumns.map(name=>({name,tasks:[]}))
-                }
+        
+           
+            const updatedColumns = selectBoard.columns.map((col) => ({
+                name: col.name,
+                tasks: col.tasks
+            }));
+        
+           
+            if (newColumnName.trim()) {
+                updatedColumns.push({ name: newColumnName, tasks: [] });
+                setNewColumnName(''); 
             }
-            return item
-        })
-        dispatch(setSelectBoard(updateData));
-        localStorage.setItem('saveNewData', JSON.stringify(updateData));
-        setModalEdit(false)
+        
+            
+            dispatch(setSelectBoard({ ...selectBoard, columns: updatedColumns }));
+        
+            
+            const updatedSaveData = boardsave.map(item => 
+                item.Name === selectBoard.Name ? { ...item, columns: updatedColumns } : item
+            );
+        
+            
+            dispatch(setSaveboard(updatedSaveData));
+            localStorage.setItem('saveNewData', JSON.stringify(updatedSaveData));
+        
+          
+          
+            setModalEdit(false);
+       
+        
        
     }
     const addNewColumn = () => {
+       
+        if(!newColumnName){
+            setIsShowNewColumn(true)
+        } else{
+          if  (!newColumnName.trim()) return;
+     
+            const newColumn = { name:newColumnName, tasks: [] };
+            const updatedColumns = [...selectBoard.columns, newColumn];
+            dispatch(setSelectBoard({ ...selectBoard, columns: updatedColumns }));
+    
+
+            const updatedSaveData = boardsave.map(board =>
+                board.Name === selectBoard.Name ? { ...board, columns: updatedColumns } : board
+            );
+            dispatch(setSaveboard(updatedSaveData));
+            localStorage.setItem('saveNewData', JSON.stringify(updatedSaveData));
+            setEditColumns(updatedColumns.map(col => col.name)); 
+           
+            setNewColumnName('');
+        }
+         
         
-        selectBoard.columns([...newColumnName,{name:'',tasks:[]}])
-        
-    }
-   
+};
+    
+
 
     return(
     
@@ -111,9 +138,9 @@ function Header(){
 
             </div>
             <div className=" p-6  flex  items-center justify-between  col-start-2  col-end-7">
-                <h2  className=" text-lg p-2">{ selectBoard ? selectBoard.Name :  boardsave[0].Name}</h2>
+                <h2  className=" text-xl font-bold p-2">{ selectBoard ? selectBoard.Name :  boardsave[0].Name}</h2>
                 <div className="flex justify-center  gap-6">
-                    <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={()=>(setModalTask(true))}>+ Add New Task</button>
+                    <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={()=>(dispatch(setShowTaskModal(true)))}>+ Add New Task</button>
                     <div className=" relative p-2">
                         <div className="menu-icon flex cursor-pointer flex-col gap-1" onClick={toggleMenu} >
                             <div className=" w-1 h-1 bg-slate-500 rounded-full " ></div>
@@ -134,7 +161,7 @@ function Header(){
             </div>
            
             { modalDelete ? <ModalDelete type={selectBoard.Name}/> : undefined }
-            {modalTask ? <ModalTask/> :undefined}
+            { showTaskModal ? <ModalTask/> :undefined}
                         
             {modaledit && (
                 <div className="bg-black/40 fixed top-0 left-0 h-full w-screen">
@@ -157,18 +184,24 @@ function Header(){
                                                 onChange={(e)=>{
                                                 const newCoulmns=[...selectBoard.columns];
                                                 newCoulmns[index]=e.target.value;
-                                                dispatch(selectBoard.columns((newCoulmns)))}}
+                                                dispatch(setSelectBoard(selectBoard.columns((newCoulmns))))}}
                                                 
                                                 className="border-2 rounded-sm p-2 w-full"
                                             />
                                             <button className="bg-transparent h-5 w-5 rounded-full text-gray-400"  key={index} onClick={()=>(handelDeleteColumn(index))}>X</button>
-                                        </div>
-
+                                        </div>        
                                     )
-                                    }) }
+                                    }) 
+                                }
                     
-                        
-                            <button className="rounded-2xl bg-buttoncolor text-purpledo w-full h-10 " onClick={addNewColumn}  >+add new column</button>
+                                {isShoeNewCoulmn && (<input
+                                                type="text"
+                                                value={newColumnName}
+                                                onChange={(e) => setNewColumnName(e.target.value)}
+                                                className="border-2 rounded-sm p-2 w-full"
+                                            />)}    
+                                
+                            <button className="rounded-2xl bg-buttoncolor text-purpledo w-full h-10 " onClick={(addNewColumn)}  >+add new column</button>
                             <button className="rounded-2xl bg-purpledo text-white h-10 " onClick={handelSaveEdit}>save changes</button>
                             
                         

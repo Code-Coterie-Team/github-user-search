@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 
- 
 const initialState = {
-    selectBoard: null,
+    selectBoard:null,
 };
 const boardSlice=createSlice({
     name:'board',

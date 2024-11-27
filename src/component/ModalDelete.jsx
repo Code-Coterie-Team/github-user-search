@@ -1,10 +1,11 @@
 import { setDeleteModal } from "../features/modalSlice";
 import { useSelector,useDispatch } from "react-redux";
 import { setSaveboard } from "../features/savedataSlice";
+import { setSelectBoard } from "../features/boardSlice";
   
  
 function ModalDelete(props){
-    const {modalDelete}=useSelector((state)=>state.modalDelete);
+    
     const selectBoard=useSelector((state)=>state.board.selectBoard);
     const {boardsave}=useSelector((state)=>state.boardsave);
     const dispatch=useDispatch()
@@ -15,6 +16,7 @@ function ModalDelete(props){
             localStorage.setItem('saveNewData',JSON.stringify(updateData));
 
             dispatch(setSaveboard(updateData));
+            dispatch(setSelectBoard(boardsave[0]))
             dispatch(setDeleteModal(false));
         }
     }

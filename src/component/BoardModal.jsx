@@ -1,8 +1,7 @@
-import { setDeleteModal } from "../features/modalSlice";
+import { setDeleteModal,setShowModalBoard} from "../features/modalSlice";
 import { useSelector,useDispatch } from "react-redux";
 import { setSaveboard } from "../features/savedataSlice";
-
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 function ModalBoard(props){
     const {boardsave}=useSelector((state)=>state.boardsave || {boardsave:[]});
@@ -28,6 +27,7 @@ function ModalBoard(props){
        
         setNewColumnName([{name:'',tasks:[]}]);
         setNewBoardName('');
+        dispatch(setShowModalBoard(false))
         
         
     };
@@ -62,6 +62,7 @@ function ModalBoard(props){
             <form className="flex flex-col">
                 <label className="text-sm p-2 text-gray-400">Name</label>
                 <input 
+                    required
                     name="boardName" 
                     type="text" 
                     className="border-2  rounded-md h-10  hover:border-purpledo" 
@@ -72,7 +73,7 @@ function ModalBoard(props){
                 <label className="text-sm p-2 text-gray-400">Columns</label>
                 <div className="flex flex-col gap-2 ">
                     {newColumnName.map((col,index)=>
-                       <input type="text" name="column" value={col.name} key={index} onChange={(e)=>handelColumnChange(index,e.target.value)}
+                       <input type="text" name="column" required  value={col.name} key={index} onChange={(e)=>handelColumnChange(index,e.target.value)}
                        
                          className=" border-2 p-2 rounded-md h-10  hover:border-purpledo"
                     />
