@@ -16,7 +16,7 @@ function ModalTask(){
     const [subtask,setSubtask]=useState([]);
     const [seletColumn,setSeclectCoulmn]=useState('');
     const {showTaskModal}=useSelector((state)=>state.modals);
-
+  
    
     const handelSaveTask=()=>{
        if(selectBoard && seletColumn) {
@@ -53,10 +53,22 @@ function ModalTask(){
 
        }
     }
-
+    useEffect(()=>{
+        if(showTaskModal){
+            document.addEventListener('mousedown',handelclickout)
+        }else{
+            document.removeEventListener('mousedown',handelclickout)
+        }
+        
+    },[showTaskModal,dispatch])
+    const handelclickout=(event)=>{
+        if(modaltaskRef.current && !modaltaskRef.current.contains(event.target)){
+            dispatch(setShowTaskModal(false));
+        }
+    }
     return(
         <div   className="bg-black/40 fixed top-0 left-0 h-full w-full">
-            <div  className="bg-white fixed top-1/2 left-1/2 w-5/12 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl"  >
+            <div ref={modaltaskRef} className="bg-white dark:bg-dark-primary-100 dark:text-white fixed top-1/2 left-1/2 w-5/12 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl"  >
                 <label className="text-gray-400" >Title</label>
                 <input type="text" className="border-2" required value={taskTitle} onChange={(e)=>setTaskTitle(e.target.value)}/>
                 <label className="text-gray-400">Description</label>

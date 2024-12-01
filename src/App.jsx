@@ -1,18 +1,26 @@
 import { Component } from "react";
 import Header from "./component/Header";
 import Sidebar from "./component/Sidebar";
-import { useState } from "react";
+import Main from "./component/Mainarea";
 import { Provider } from "react-redux";
 import store  from "./features/store";
+import { useSelector } from "react-redux";
+
 
 function App(){
-   
+ 
+
   return(
-      <Provider store={store}>
-        <div className="main h-full w-full bg-white  grid ">
-          <Header />
-          <Sidebar   />
-        </div>
+      <Provider  store={store}>
+        
+              <Header />
+              <div className=" grid grid-cols-6">
+                <Sidebar />
+                <Main/>
+              
+              </div>
+        
+        
       </Provider>
   )
   
