@@ -19,10 +19,7 @@ export default {
           300: "",
         },},
       },
-      fontFamily:{
-          'sans':['Plus Jakarta Sans', 'sans-serif'],
-      }
-      ,
+      
     }
       
   },

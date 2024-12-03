@@ -14,9 +14,9 @@ function App(){
       <Provider  store={store}>
         
               <Header />
-              <div className=" grid grid-cols-6">
+              <div className=" h-screen grid grid-cols-8">
                 <Sidebar />
-                <Main/>
+                 <Main/>
               
               </div>
         

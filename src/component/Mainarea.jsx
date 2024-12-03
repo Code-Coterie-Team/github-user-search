@@ -1,36 +1,31 @@
 import { useState,useRef,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowEditBoard } from "../features/modalSlice";
+import { setShowEditBoard, setShowEditTask, setShowTaskDelete } from "../features/modalSlice";
 import EditBoard from "./EditBoard";
 import ModalTask from "./TaskModal";
+import { setSelectTask } from "../features/selecttaskSlice";
+import EditTask from "./EditTask";
+import DeleteTask from "./DeletTask";
 
 
 
 function Main(){
-
+    const {selectTask}=useSelector((state)=>state.selectTask)
     const selectBoard=useSelector((state)=>state.board.selectBoard);
-    const [selectTask,setSeletTask]=useState(null);
+    
     const[isOpenTask,setIsOpenTask]=useState(false);
-    const {boardsave}=useSelector((state)=>state.boardsave);
+    const {showTaskDelete}=useSelector((state)=>state.modals);
     const modalRef = useRef(null);
     const[taskShowModal,setTaskShowModal]=useState(false);
     const {showEditBoardModal }=useSelector((state)=>state.modals);
     const dispatch=useDispatch()
-    const {theme}=useSelector((state)=>state.theme);
+    const {showEditTask}=useSelector((state)=>state.modals)
 
-    useEffect(() => {
-        if (theme === "dark") {
-          document.documentElement.classList.add("dark");
-        } else {
-    
-          document.documentElement.classList.remove("dark");
-        }
-      }, [theme]);
     const toggleMenu=()=>{
         setIsOpenTask(!isOpenTask);
     }
     const openTaskDetail=(task)=>{
-        setSeletTask(task);
+        dispatch(setSelectTask(task));
         setTaskShowModal(true);
     }
     
@@ -41,7 +36,11 @@ function Main(){
         }
     };
     
+    const handelEdit=()=>{
+        dispatch(setShowEditTask(true));
+        setTaskShowModal(false);
 
+    }
     
     useEffect(() => {
         if (taskShowModal) {
@@ -56,20 +55,19 @@ function Main(){
 
     return(
     
-        <div className="bg-bgmain  dark:bg-dark-primary-200 dark:text-white w-screen  col-start-2 col-end-7   h-full">
-        <div className=" flex gap-10 pl-6 h-full">
-            {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => (
-                <div className="flex flex-col h-full">
-
-                    <div key={index} className="text-center w-72  "> 
+        <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-3  col-end-9  overflow-x-scroll h-full max-w-screen-xl">
+            <div className=" flex gap-10 pl-6 h-screen   "  style={{ minWidth: '1500px' }}>
+                {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => (
+                    <div className="flex flex-col h-full w-72">
+                        <div key={index} className="text-center   "> 
                     
-                        <div className='flex gap-4  items-center p-4 '>
-                            <div className={`h-4 w-4 rounded-full bg-green-200 `}></div>
-                            <span className="text-gray-400 "> 
-                            {`${col.name} (${col.tasks.length})` }
-                            </span>
-                        </div>
-                    </div> 
+                            <div className='flex gap-4  items-center p-4 '>
+                                <div className={`h-4 w-4 rounded-full bg-green-200 `}></div>
+                                <span className="text-gray-400 "> 
+                                {`${col.name} (${col.tasks.length})` }
+                                </span>
+                            </div>
+                        </div> 
                         <div className= {`flex flex-col  gap-6 h-full rounded border-gray-400 ${col.tasks.length === 0 ?'border-2 border-dashed border-gray-30 h-full':''}`} >
                             {col.tasks.map((task,taskIndex)=>(
                                 <div key={taskIndex} className=" w-full h-30 p-2 bg-white   dark:bg-dark-primary-100 dark:text-white hover:opacity-20 cursor-pointer rounded-lg shadow-md text-left " onClick={()=>openTaskDetail(task)}>
@@ -79,13 +77,13 @@ function Main(){
                             ))}
                         </div> 
 
-                </div>
+                    </div>
                 ))  }
-           
+    
             <div className={ `${Array.isArray(selectBoard.columns) &&selectBoard.columns.length < 6 ? `w-72 flex flex-col gap-6` : ` hidden`} ` }>
                 <div className=" p-4 "></div>
                 <div className=" bg-gradient-to-b from-slate-300 rounded flex  h-full justify-center content-center">
-                    <button className="  text-gray-400 font-bold text-2xl  hover:text-purpledo "onClick={()=>dispatch(setShowEditBoard(true))}> + New Coulmn</button>
+                    <button className="  text-gray-400 font-bold text-2xl  hover:text-purpledo " onClick={()=>dispatch(setShowEditBoard(true))}> + New Coulmn</button>
                     {showEditBoardModal && <EditBoard/>}
                 </div>
             </div>
@@ -106,8 +104,8 @@ function Main(){
                     </div>
                     {isOpenTask&&(
                         <div className=" absolute flex flex-col items-center bg-white w-32 h-15 z-50 top-12 -right-8 text-sm rounded shadow-2xl gap-2 p-2">
-                            <div className="text-gray-500">Edit Task</div>
-                            <div className="text-red-400 " onClick={()=>dispatch(setDeleteModal(true))} >Delete Task</div>
+                            <div className="text-gray-500" onClick={handelEdit}>Edit Task</div>
+                            <div className="text-red-400 " onClick={()=>dispatch(setShowTaskDelete(true))} >Delete Task</div>
 
                         </div>
                     )}
@@ -117,7 +115,7 @@ function Main(){
                 <label className="text-gray-400 text-sm">current state</label>
                 <select className="rounded border-2 p-2 hover:border-purpledo" value={selectBoard.columns} >
                         <option  >
-                            {selectBoard.columns.find(col => col.tasks.some(task => task.id === selectTask.id))?.name || 'Not Found'}
+                            {selectBoard.columns.find(col => col.tasks.some(task => task.title === selectTask.title))?.name || 'Not Found'}
                         </option>
                         {selectBoard.columns.map((col,index)=>(
                             <option value={col.name} key={index}>{col.name}</option>)
@@ -131,7 +129,8 @@ function Main(){
 
         </div>)
         }
-        
+        {showEditTask && <EditTask/>}
+        {showTaskDelete && <DeleteTask/>}
         
     </div>
     

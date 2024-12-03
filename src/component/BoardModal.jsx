@@ -17,7 +17,7 @@ function ModalBoard(){
    
 
     const addNewColumn = (event) => {
-        event.stopPropagation(); 
+        
         if (newColumnName.length<6){
             setNewColumnName([...newColumnName,{name:'',tasks:[]}]);
         }
@@ -55,12 +55,11 @@ function ModalBoard(){
     };
     const handelColumnChange =(index,value)=>{
         
-     
             const upadateColumn=[...newColumnName,]
             upadateColumn[index]=value;
             setNewColumnName(upadateColumn);
         }
- useEffect(()=>{
+    useEffect(()=>{
         if(showModalBoard){
             document.addEventListener('mousedown',handelClickOut);
         }else{

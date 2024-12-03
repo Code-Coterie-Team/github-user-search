@@ -50,13 +50,13 @@ function Header(){
 
     return(
     
-        <div className="bg-white  dark:bg-dark-primary-100 text-white  h-2/4 border-b-2 dark:border-b-gray-500 justify-left align-middle grid grid-cols-6 w-screen  ">
-            <div className="flex text-center   border-r-2 dark:border-r-gray-500  p-8   col-span-1 gap-6">
+        <div className="bg-white  dark:bg-dark-primary-100 text-white  h-2/4 border-b-2 dark:border-b-gray-500 justify-left align-middle grid grid-cols-8 w-screen overflow-x-hidden ">
+            <div className="flex text-center   border-r-2 dark:border-r-gray-500  p-8   col-span-2 gap-6">
                 <img src="./src/assets/logo-dark.8590e096.svg" alt="" />
 
             </div>
-            <div className=" p-6  dark:bg-dark-primary-100 flex  items-center justify-between w-screen  col-start-2  col-end-8 ">
-                <h2  className=" text-xl font-bold p-2">{ selectBoard ? selectBoard.Name :  boardsave[0].Name}</h2>
+            <div className=" p-6  dark:bg-dark-primary-100 dark:text-white flex  items-center justify-between   col-start-3  col-end-9 ">
+                <h2  className=" text-xl   text-black dark:text-white font-bold p-2">{ selectBoard ? selectBoard.Name :  boardsave[0].Name}</h2>
                 <div className="flex justify-center w gap-6">
                     <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={()=>(dispatch(setShowTaskModal(true)))}>+ Add New Task</button>
                     <div className=" relative p-2">

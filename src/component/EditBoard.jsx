@@ -13,11 +13,12 @@ function EditBoard(){
     
     const [newColumnName, setNewColumnName] = useState('');
     const[isShoeNewCoulmn,setIsShowNewColumn]=useState(false);
-     const dispatch=useDispatch()
-    
-   
+    const dispatch=useDispatch()
+    const {theme}=useSelector((state)=>state.theme)
+    const [newBoardName,setNewBoardName]=useState(selectBoard.Name)
+    console.log(newBoardName);
     const handelDeleteColumn =(index)=>{
-         const select=selectBoard.columns[index];
+        const select=selectBoard.columns[index];
 
         if(select.tasks.length === 0){
                     const update=selectBoard.columns.filter((_,colIndex)=>colIndex !== index);
@@ -39,7 +40,7 @@ function EditBoard(){
         }else{
             document.removeEventListener('mousedown',handelClick)
         }
-    },[showEditBoardModal,dispatch]);
+    },[showEditBoardModal]);
 
     const handelClick=(event)=>{
         if(editRef.current && !editRef.current.contains(event.target)){
@@ -58,8 +59,8 @@ function EditBoard(){
             
             if(selectBoard.columns.length<5){
                 const newColumn = { name:newColumnName, tasks: [] };
-            const updatedColumns = [...selectBoard.columns, newColumn];
-            dispatch(setSelectBoard({ ...selectBoard, columns: updatedColumns }));
+                const updatedColumns = [...selectBoard.columns, newColumn];
+                dispatch(setSelectBoard({ ...selectBoard, columns: updatedColumns }));
     
 
             const updatedSaveData = boardsave.map(board =>
@@ -73,24 +74,27 @@ function EditBoard(){
             }
         }
     };
+    const handelNewName=(e)=>{
+        setNewBoardName(e.target.value);
+    }
         const handelSaveEdit=()=>{
         
-           
+            
             const updatedColumns = selectBoard.columns.map((col) => ({
                 name: col.name,
-                tasks: col.tasks
+                tasks: col.tasks,
             }));
         
-           
+        
             if (newColumnName.trim()) {
                 updatedColumns.push({ name: newColumnName, tasks: [] });
                 setNewColumnName(''); 
             }
         
             
-            dispatch(setSelectBoard({ ...selectBoard, columns: updatedColumns }));
+            dispatch(setSelectBoard({ ...selectBoard,Name:newBoardName, columns: updatedColumns }));
             const updatedSaveData = boardsave.map(item => 
-                item.Name === selectBoard.Name ? { ...item, columns: updatedColumns } : item
+                item.Name === selectBoard.Name ? { ...item, Name:newBoardName,columns: updatedColumns } : item
             );
         
             
@@ -111,12 +115,11 @@ function EditBoard(){
 
     return(
         <div className="bg-black/40 fixed top-0 left-0 h-full w-screen">
-            <div  ref={editRef} className="bg-white dark:bg-dark-primary-100 dark:text-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
+            <div  className="bg-white dark:bg-dark-primary-100 dark:text-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
                 -translate-x-1/2 -translate-y-1/2 fixed p-8 rounded  ">
                 <div className="text-black">Edit Board </div>
                 <label className="text-gray-400 text-sm" >Name</label>
-                <input type="text" value={selectBoard.Name} onChange={(e)=>{
-                dispatch(setSelectBoard(e.target.value))}} className="border-2 rounded-sm p-2 text-sm"/>
+                <input type="text" value={newBoardName}  onChange={handelNewName} className="border-2 rounded-sm p-2 text-sm"/>
                 <label className="text-gray-400" >columns</label>
         
                     {Array.isArray(selectBoard.columns )&&selectBoard.columns.map((col,index)=>{
@@ -126,7 +129,6 @@ function EditBoard(){
 
                                 <input type="text"  value={col.name}
                                     key={index} 
-                                    placeholder={`Column ${index + 1}`} 
                                     onChange={(e)=>{
                                     const newCoulmns=[...selectBoard.columns];
                                     newCoulmns[index]=e.target.value;

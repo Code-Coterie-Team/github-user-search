@@ -3,7 +3,8 @@ import boardSlice from './boardSlice';
 import saveBoardSlice from './savedataSlice';
 import { data } from 'autoprefixer';
 import modalDeleteSlice from './modalSlice'
-import themeSlice from './themeSlice';
+import themeSlice from './themeSlice'
+import selectTaskSlice from './selecttaskSlice'
 
 const store=configureStore({
     reducer:{
@@ -11,6 +12,7 @@ const store=configureStore({
         boardsave:saveBoardSlice,
         modals:modalDeleteSlice,
         theme:themeSlice,
+        selectTask:selectTaskSlice,
     },
 })
 

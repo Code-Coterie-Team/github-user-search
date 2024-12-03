@@ -14,16 +14,18 @@ function Sidebar() {
     const selectBoard=useSelector((state)=>state.board.selectBoard);
     const {showModalBoard}=useSelector((state)=>state.modals)
     const {boardsave}=useSelector((state)=>state.boardsave || {boardsave:[]});
-    const {theme}=useSelector((state)=>state.theme)
-  
-    const toggleTheme=()=>{
-        if(theme==="dark"){
-            dispatch(setTheme("light"))
-        }else{
-            dispatch(setTheme("dark"))
-        }
-        
+    const {theme}=useSelector((state)=>state.theme);
+    const [isChecked, setIsChecked] = useState(false)
+
+    const handleCheckboxChange = () => {
+      setIsChecked(!isChecked)
+      if(theme==="light"){
+        dispatch(setTheme("dark"))
+      }else{
+        dispatch(setTheme("light"))
+      }
     }
+  
 
   useEffect(() => {
     if (theme === "dark") {
@@ -71,23 +73,41 @@ function Sidebar() {
     return (
 
   
-            <div className="flex flex-col dark:bg-dark-primary-100 dark:text-white bg-white gap-96 col-span-1 border-r dark:border-r-gray-500">
-                <div className="flex flex-col  text-center items-baseline gap-4 ">
+            <div className="flex flex-col h-full dark:bg-dark-primary-100 dark:text-white bg-white gap-72 col-span-2 border-r dark:border-r-gray-500 overflow-y-hidden">
+                <div className="flex flex-col  text-center  gap-4 ">
+                    
                     <div className="text-xs  text-gray-400 flex  p-4">ALL BOARDS {`(${boardsave.length})`}</div>
                         {(Array.isArray(boardsave) && boardsave.map((item,index) => (
-                        <div  key={index} className="text-gray-500  text-base text-left w-10/12 hover:text-white  hover:bg-purple-500 active:bg-purpledo  active:border-green-300 rounded-sm pl-6 rounded-r-full h-10 hover:transition ease-out p-2" 
+                        
+                        <div  key={index} className="text-gray-500 flex gap-4 text-base text-left w-10/12 hover:text-white  hover:bg-purple-500 active:bg-purpledo  active:border-green-300 rounded-sm pl-6 rounded-r-full h-10 hover:transition ease-out p-2" 
                             onClick={() => handleSelectBoard(item)}>
-                            {item.Name}
+                            <img src="./src/assets/grid.svg" alt=""  />
+                            <span>{item.Name}</span>
                         </div>
                     )))}
-                    <button className="text-purpledo pl-6" onClick={() => dispatch(setShowModalBoard(true))}>+ Create New Board</button> 
+                    <button className="text-purpledo pl-6 flex gap-4" onClick={() => dispatch(setShowModalBoard(true))}>
+                        <img src="./src/assets/grid.svg" alt="" />
+                        <span>+ Create New Board</span>
+                    </button> 
                 </div>
                 
-                <div className="flex flex-col items-center">
-                    <div className="flex justify-center p-2 w-32 bg-gray-300">
-                        <img src="" alt="" />
-                        <button className="rounded bg-purple-900 w-10 h-4" onClick={toggleTheme}></button>
-                        <img src="" alt="" />
+                <div className="flex flex-col items-center justify-center p-4">
+                    <div className="flex gap-4 justify-center items-center  p-2 rounded-sm w-full h-12 bg-buttoncolor dark:bg-dark-primary-200">
+                        <img src="./src/assets/moon.svg" alt="" />
+                        <label className="flex cursor-pointer select-none items-center">
+                            <div className=" relative">
+                                <input type="checkbox"
+                                checked={isChecked}
+                                onChange={handleCheckboxChange}
+                                className=" sr-only"
+                                />
+                                <div className="block h-8 w-14 rounded-full border border-purpledo  bg-purpledo"></div>
+                                <div className={` bg-white absolute  h-6 w-6 rounded-full transition ${isChecked ?'left-1 top-1' : " top-1 left-5"}` }></div>
+                            </div>
+                        </label> 
+                        
+            
+                        <img src="./src/assets/sun.svg" alt="" />
                     </div>
                 </div>
             
