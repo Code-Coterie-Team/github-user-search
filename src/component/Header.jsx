@@ -60,14 +60,14 @@ function Header(){
                 <div className="flex justify-center w gap-6">
                     <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={()=>(dispatch(setShowTaskModal(true)))}>+ Add New Task</button>
                     <div className=" relative p-2">
-                        <div className="menu-icon flex cursor-pointer flex-col gap-1" onClick={toggleMenu} >
+                        <div className="menu-icon flex cursor-pointer flex-col gap-1 " onClick={toggleMenu} >
                             <div className=" w-1 h-1 bg-slate-500 rounded-full " ></div>
                             <div className="w-1 h-1 bg-slate-500 rounded-full" ></div>
                             <div className="w-1 h-1 bg-slate-500 rounded-full" ></div>
                         </div>
                     </div>
                     {isOpen && (
-                    <div className=" absolute bg-white w-28 z-50 top-20 right-2   p-2">
+                    <div className=" absolute bg-white w-28 z-50 top-20 right-2 dark:bg-dark-primary-100 p-2">
                         <ul>
                             <li className="text-gray-300" onClick={handeledit}>Edit Board</li>
                             <li className="text-red-400 cursor-pointer" onClick={()=>(dispatch(setDeleteModal(true)))} >Delete Board </li>

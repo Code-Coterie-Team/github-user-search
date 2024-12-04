@@ -117,9 +117,9 @@ function EditBoard(){
         <div className="bg-black/40 fixed top-0 left-0 h-full w-screen">
             <div  className="bg-white dark:bg-dark-primary-100 dark:text-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
                 -translate-x-1/2 -translate-y-1/2 fixed p-8 rounded  ">
-                <div className="text-black">Edit Board </div>
+                <div className="text-black dark:text-white">Edit Board </div>
                 <label className="text-gray-400 text-sm" >Name</label>
-                <input type="text" value={newBoardName}  onChange={handelNewName} className="border-2 rounded-sm p-2 text-sm"/>
+                <input type="text" value={newBoardName}  onChange={handelNewName} className="border-2 rounded-sm p-2 text-sm  dark:bg-dark-primary-100 dark:border-dark-primary-200"/>
                 <label className="text-gray-400" >columns</label>
         
                     {Array.isArray(selectBoard.columns )&&selectBoard.columns.map((col,index)=>{
@@ -134,7 +134,7 @@ function EditBoard(){
                                     newCoulmns[index]=e.target.value;
                                     dispatch(setSelectBoard(selectBoard.columns((newCoulmns))))}}
                                     
-                                    className="border-2 rounded-sm p-2 w-full"
+                                    className="border-2 rounded-sm p-2 w-full dark:bg-dark-primary-100 dark:border-dark-primary-200"
                                 />
                                 <button className="bg-transparent h-5 w-5 rounded-full text-gray-400"  key={index} onClick={()=>(handelDeleteColumn(index))}>X</button>
                             </div>        
@@ -146,7 +146,7 @@ function EditBoard(){
                                     type="text"
                                     value={newColumnName}
                                     onChange={(e) => setNewColumnName(e.target.value)}
-                                    className="border-2 rounded-sm p-2 w-full"
+                                    className="border-2 rounded-sm p-2 w-full dark:bg-dark-primary-100 dark:border-dark-primary-200"
                                 />)}    
                     
                 <button className="rounded-2xl bg-buttoncolor text-purpledo w-full h-10 " onClick={(addNewColumn)}  >+add new column</button>

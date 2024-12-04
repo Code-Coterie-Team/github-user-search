@@ -93,8 +93,8 @@ function Main(){
         {taskShowModal &&(
          <div className="bg-black/40 fixed top-0 left-0 h-screen w-full">
             <div ref={modalRef} className="bg-white dark:bg-dark-primary-100   dark:text-white  fixed w-1/3 flex flex-col gap-5 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-max p-6 rounded" >
-                <div className="flex justify-between">
-                    <div className="text-sm font-bold ">{selectTask.title}</div>
+                <div className="flex justify-between  dark:bg-dark-primary-10 ">
+                    <div className="text-sm font-bold  dark:bg-dark-primary-100 ">{selectTask.title}</div>
                     <div className=" relative">
                         <div className="flex flex-col  cursor-pointer gap-1" onClick={toggleMenu}>
                             <div className="w-1 h-1 rounded-full bg-slate-500"></div>
@@ -110,10 +110,10 @@ function Main(){
                         </div>
                     )}
                 </div>
-                <span className="text-gray-400">{selectTask.description}</span>
-                <div  className="bg-gray-100 hover:bg-buttoncolor text-sm font-bold h-full p-4 rounded-md ">{selectTask.subtasks}</div>
-                <label className="text-gray-400 text-sm">current state</label>
-                <select className="rounded border-2 p-2 hover:border-purpledo" value={selectBoard.columns} >
+                <span className="text-gray-400 dark:bg-dark-primary-100 dark:text-white">{selectTask.description}</span>
+                <div  className="bg-gray-100 hover:bg-buttoncolor text-sm font-bold h-full p-4 rounded-md dark:hover:bg-purpledo  dark:bg-dark-primary-100 ">{selectTask.subtasks}</div>
+                <label className="text-gray-400 text-sm  dark:bg-dark-primary-100 dark:text-white">current state</label>
+                <select className="rounded border-2 p-2 hover:border-purpledo  dark:bg-dark-primary-100 " value={selectBoard.columns} >
                         <option  >
                             {selectBoard.columns.find(col => col.tasks.some(task => task.title === selectTask.title))?.name || 'Not Found'}
                         </option>

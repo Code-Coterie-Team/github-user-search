@@ -101,8 +101,8 @@ function Sidebar() {
                                 onChange={handleCheckboxChange}
                                 className=" sr-only"
                                 />
-                                <div className="block h-8 w-14 rounded-full border border-purpledo  bg-purpledo"></div>
-                                <div className={` bg-white absolute  h-6 w-6 rounded-full transition ${isChecked ?'left-1 top-1' : " top-1 left-5"}` }></div>
+                                <div className="block h-6 w-14 rounded-full border border-purpledo  bg-purpledo"></div>
+                                <div className={` bg-white absolute  h-4 w-4 rounded-full transition ${isChecked ?'left-1 top-1' : " top-1 left-7"}` }></div>
                             </div>
                         </label> 
                         

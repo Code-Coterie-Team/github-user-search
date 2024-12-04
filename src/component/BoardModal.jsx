@@ -85,7 +85,7 @@ function ModalBoard(){
                     required
                     name="boardName" 
                     type="text" 
-                    className="border-2  rounded-md h-10  hover:border-purpledo" 
+                    className="border-2  rounded-md h-10  hover:border-purpledo  dark:border-dark-primary-200 dark:bg-dark-primary-100" 
                     value={ newBoardName}  
                     onChange={(e) =>{handelInputChange(e);
                         ;
@@ -93,13 +93,13 @@ function ModalBoard(){
             
                 />
                 <label className="text-sm p-2 text-gray-400">Columns</label>
-                <div className="flex flex-col gap-2 ">
+                <div className="flex flex-col gap-2  ">
                     { Array.isArray(newColumnName)&& newColumnName.map((col,index)=>
                        <input type="text" name="column" required  value={col.name} key={index} onChange={(e)=>{handelColumnChange(index,e.target.value);
                         }
                         }
                        
-                         className=" border-2 p-2 rounded-md h-10  hover:border-purpledo"
+                        className=" border-2 p-2 rounded-md h-10  hover:border-purpledo dark:border-dark-primary-200 dark:bg-dark-primary-100"
                     />
                    )}
                 </div>
