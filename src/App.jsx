@@ -5,20 +5,24 @@ import Main from "./component/Mainarea";
 import { Provider } from "react-redux";
 import store  from "./features/store";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import Layout from "./component/Layout";
 
 
 function App(){
- 
 
   return(
-      <Provider  store={store}>
+      <Provider  store={store}> 
+      {/* move provider to main.jsx */}
         
-              <Header />
-              <div className=" h-screen grid grid-cols-8">
-                <Sidebar />
-                 <Main/>
+              <Layout>
+                <div className=" h-screen grid grid-cols-8">
+                  <Sidebar />
+                  <Main/>
               
-              </div>
+                </div>
+              </Layout>
+             
         
         
       </Provider>

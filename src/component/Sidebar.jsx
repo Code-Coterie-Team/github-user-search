@@ -11,11 +11,12 @@ import { setTheme } from "../features/themeSlice";
 
 function Sidebar() {
     const dispatch = useDispatch();
-    const selectBoard=useSelector((state)=>state.board.selectBoard);
+    const [selectButton,setSelectButton]=useState(null)
     const {showModalBoard}=useSelector((state)=>state.modals)
     const {boardsave}=useSelector((state)=>state.boardsave || {boardsave:[]});
     const {theme}=useSelector((state)=>state.theme);
-    const [isChecked, setIsChecked] = useState(false)
+    const [isChecked, setIsChecked] = useState(false);
+    const [isVisibleSideBar,setIsVisibleSideBar]=useState(true)
 
     const handleCheckboxChange = () => {
       setIsChecked(!isChecked)
@@ -50,40 +51,33 @@ function Sidebar() {
         }
     }, [dispatch]);
     
-    const handleSelectBoard = (item) => {
+    const handleSelectBoard = (item,index) => {
             dispatch(setSelectBoard(item));
+            setSelectButton(index);
             localStorage.setItem('lastSelectBoard',JSON.stringify(item))
 
     };
-
-    useEffect(()=>{
-       const storeData=localStorage.getItem('saveNewData')
-       if(storeData){
-        const  parsedData=storeData?JSON.parse(storeData):[];
-       
-        parsedData.map((item)=>{
-                if(item.Name === selectBoard.Name){
-                    dispatch(setSelectBoard(item))
-
-                }
-        })}
-       
-
-    },[dispatch])
+    const toggleSideBar=()=>{
+            setIsVisibleSideBar(!isVisibleSideBar)
+    }
+  
     return (
 
-  
-            <div className="flex flex-col h-full dark:bg-dark-primary-100 dark:text-white bg-white gap-72 col-span-2 border-r dark:border-r-gray-500 overflow-y-hidden">
-                <div className="flex flex-col  text-center  gap-4 ">
+          
+        
+            <div className={`flex flex-col h-full dark:bg-dark-primary-100 dark:text-white bg-white gap-56
+                col-span-2 border-r dark:border-r-gray-500 ${isVisibleSideBar ?'':'hidden'}` }>
+                <div className="flex flex-col  text-center  gap-4  ">
                     
-                    <div className="text-xs  text-gray-400 flex  p-4">ALL BOARDS {`(${boardsave.length})`}</div>
+                    <div className="text-xs  text-gray-400 flex   p-4">ALL BOARDS {`(${boardsave.length})`}</div>
                         {(Array.isArray(boardsave) && boardsave.map((item,index) => (
                         
-                        <div  key={index} className="text-gray-500 flex gap-4 text-base text-left w-10/12 hover:text-white  hover:bg-purple-500 active:bg-purpledo  active:border-green-300 rounded-sm pl-6 rounded-r-full h-10 hover:transition ease-out p-2" 
-                            onClick={() => handleSelectBoard(item)}>
+                        <button  key={index} className={`text-gray-500 flex gap-4 font-antialiased  text-left w-10/12 hover:text-white hover:bg-purplelight rounded-sm pl-6 
+                          rounded-r-full h-10 hover:transition ease-out p-2 ${selectButton===index ?'bg-purpledo text-white':'bg-white'}`} 
+                            onClick={() => handleSelectBoard(item,index)}>
                             <img src="./src/assets/grid.svg" alt=""  />
                             <span>{item.Name}</span>
-                        </div>
+                        </button>
                     )))}
                     <button className="text-purpledo pl-6 flex gap-4" onClick={() => dispatch(setShowModalBoard(true))}>
                         <img src="./src/assets/grid.svg" alt="" />
@@ -105,17 +99,17 @@ function Sidebar() {
                                 <div className={` bg-white absolute  h-4 w-4 rounded-full transition ${isChecked ?'left-1 top-1' : " top-1 left-7"}` }></div>
                             </div>
                         </label> 
-                        
-            
                         <img src="./src/assets/sun.svg" alt="" />
                     </div>
+    
                 </div>
-            
-            
             { showModalBoard && <ModalBoard />  }
-            
-            
+            {/* <div className="" onClick={toggleSideBar}>{isVisibleSideBar? 'Hide SideBar':'visible SideBar'}</div> */}
+
         </div>
+        
+        
+       
 
 
     );

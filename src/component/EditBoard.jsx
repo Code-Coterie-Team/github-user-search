@@ -16,7 +16,7 @@ function EditBoard(){
     const dispatch=useDispatch()
     const {theme}=useSelector((state)=>state.theme)
     const [newBoardName,setNewBoardName]=useState(selectBoard.Name)
-    console.log(newBoardName);
+    
     const handelDeleteColumn =(index)=>{
         const select=selectBoard.columns[index];
 

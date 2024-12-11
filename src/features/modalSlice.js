@@ -18,7 +18,7 @@ const modalDeleteSlice=createSlice({
                 state.modalDelete=action.payload;
         },
         setShowTaskModal:(state,action)=>{
-            state.showTaskModal=action.payload
+            state.showTaskModal=action.payload;
         },
         setShowModalBoard:(state,action)=>{
             state.showModalBoard=action.payload

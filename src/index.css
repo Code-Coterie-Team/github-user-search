@@ -1,8 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+  .font-antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
 
 body{
     
-    font-family:'Plus Jakarta Sans';
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow: hidden;
 } 

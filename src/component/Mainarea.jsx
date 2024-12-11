@@ -55,7 +55,7 @@ function Main(){
 
     return(
     
-        <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-3  col-end-9  overflow-x-scroll h-full max-w-screen-xl">
+        <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-3  col-end-9  overflow-auto h-full max-w-screen-xl">
             <div className=" flex gap-10 pl-6 h-screen   "  style={{ minWidth: '1500px' }}>
                 {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => (
                     <div className="flex flex-col h-full w-72">

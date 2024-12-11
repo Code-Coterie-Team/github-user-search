@@ -10,6 +10,7 @@ export default {
       colors:{
        
         purpledo:"#635fc7",
+        purplelight:'rgba(99, 95, 199, 0.5)',
         buttoncolor:'#f0effa',
         bgmain:'#F4F7FD',
         dark: {
@@ -18,6 +19,9 @@ export default {
           200: "#20212C",
           300: "",
         },},
+      },
+      fontSize: {
+        responsive: 'clamp(1.2rem, 3vw, 1.5rem)',
       },
       
     }

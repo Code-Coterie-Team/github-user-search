@@ -9,14 +9,14 @@ import { setSaveboard } from "../features/savedataSlice";
 
 function ModalTask(){
     
-    const modaltaskRef=useRef(null)
+    const modaltaskRef=useRef(null);
     const selectBoard=useSelector((state)=>state.board.selectBoard);
     const dispatch=useDispatch()
     const [taskTitle,setTaskTitle]=useState('');
-    const [taskDescriotion,setTaskDescription]=useState('');
+    const [taskDescription,setTaskDescription]=useState('');
     const [subtask,setSubtask]=useState([]);
     const [seletColumn,setSeclectCoulmn]=useState('');
-     const {boardsave}=useSelector((state)=>state.boardsave )
+   
     const {showTaskModal}=useSelector((state)=>state.modals);
   
    
@@ -28,7 +28,7 @@ function ModalTask(){
                                 ...col,
                                 tasks:[
                                     ...col.tasks,{
-                                        title:taskTitle,description:taskDescriotion,subtasks:[subtask]
+                                        title:taskTitle,description:taskDescription,subtasks:[subtask]
                                     }
                                 ],
                             };
@@ -38,16 +38,17 @@ function ModalTask(){
 
                     dispatch(setSelectBoard({...selectBoard,columns:updateColumns}));
 
-                    const storeData=JSON.parse(localStorage.getItem(('saveNewData')||['']));
-                    const updateData=storeData.map((item)=>{
-                        if(item.Name===selectBoard.Name){
-                            return{...item,columns:updateColumns}
-                        }
-                        return item
-                    })
-                    localStorage.setItem('saveNewData',JSON.stringify(updateData));
-                    dispatch(setSaveboard([...boardsave, { ...selectBoard, columns: updatedColumns }]));
-                    dispatch(setShowTaskModal(false))
+                    // const storeData=JSON.parse(localStorage.getItem(('saveNewData')||['']));
+                    // const updateData=storeData.map((item)=>{
+                    //     if(item.Name===selectBoard.Name){
+                    //         return{...item,columns:updateColumns}
+                    //     }
+                    //     return item
+                    // })
+                    // localStorage.setItem('saveNewData',JSON.stringify(updateData));
+                    
+                    dispatch(setShowTaskModal(false));
+                    
                     setTaskTitle('');
                     setTaskDescription('');
                     setSubtask('');
@@ -63,7 +64,8 @@ function ModalTask(){
             document.removeEventListener('mousedown',handelclickout)
         }
         
-    },[showTaskModal,dispatch])
+    },[showTaskModal])
+    
     const handelclickout=(event)=>{
         if(modaltaskRef.current && !modaltaskRef.current.contains(event.target)){
             dispatch(setShowTaskModal(false));
@@ -75,7 +77,7 @@ function ModalTask(){
                 <label className="text-gray-500  " >Title</label>
                 <input type="text" className="border-2 p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100" required value={taskTitle} onChange={(e)=>setTaskTitle(e.target.value)}/>
                 <label className="text-gray-400">Description</label>
-                <input type="text" className="border-2 h-20 p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100" value={taskDescriotion} onChange={(e)=> setTaskDescription(e.target.value)} />
+                <input type="text" className="border-2 h-20 p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100" value={taskDescription} onChange={(e)=> setTaskDescription(e.target.value)} />
                 <label  className="text-gray-400">Subtasks</label>
                 <input type="text" className="border-2 p-2  dark:bg-dark-primary-200 dark:border-dark-primary-100"  required value={subtask} onChange={(e)=>setSubtask(e.target.value)} />
                 <button className="bg-buttoncolor text-purpledo rounded-2xl">+ Add New Subtask</button>

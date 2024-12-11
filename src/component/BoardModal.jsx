@@ -16,7 +16,7 @@ function ModalBoard(){
     
    
 
-    const addNewColumn = (event) => {
+    const addNewColumn = () => {
         
         if (newColumnName.length<6){
             setNewColumnName([...newColumnName,{name:'',tasks:[]}]);
@@ -65,8 +65,9 @@ function ModalBoard(){
         }else{
             document.removeEventListener('mousedown',handelClickOut)
         }
+        // return
 
-    },[showModalBoard,dispatch])
+    },[showModalBoard])
 
     const handelClickOut=(event)=>{
         if(boradRef.current && !boradRef.current.contains(event.target)){
