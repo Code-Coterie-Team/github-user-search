@@ -115,7 +115,7 @@ function EditBoard(){
 
     return(
         <div className="bg-black/40 fixed top-0 left-0 h-full w-screen">
-            <div  className="bg-white dark:bg-dark-primary-100 dark:text-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
+            <div ref={editRef}  className="bg-white dark:bg-dark-primary-100 dark:text-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
                 -translate-x-1/2 -translate-y-1/2 fixed p-8 rounded  ">
                 <div className="text-black dark:text-white">Edit Board </div>
                 <label className="text-gray-400 text-sm" >Name</label>

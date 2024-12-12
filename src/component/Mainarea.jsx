@@ -6,21 +6,26 @@ import ModalTask from "./TaskModal";
 import { setSelectTask } from "../features/selecttaskSlice";
 import EditTask from "./EditTask";
 import DeleteTask from "./DeletTask";
+import { use } from "react";
+import { setSelectBoard } from "../features/boardSlice";
+import { setSaveboard } from "../features/savedataSlice";
 
 
 
 function Main(){
     const {selectTask}=useSelector((state)=>state.selectTask)
     const selectBoard=useSelector((state)=>state.board.selectBoard);
-    
+    const {boardsave}=useSelector((state)=>state.boardsave || {boardsave:[]});
     const[isOpenTask,setIsOpenTask]=useState(false);
-    const {showTaskDelete}=useSelector((state)=>state.modals);
+    
     const modalRef = useRef(null);
     const[taskShowModal,setTaskShowModal]=useState(false);
     const {showEditBoardModal }=useSelector((state)=>state.modals);
     const dispatch=useDispatch()
-    const {showEditTask}=useSelector((state)=>state.modals)
-
+   
+    const [newColumn,setNewColumn]=useState('')
+    
+    
     const toggleMenu=()=>{
         setIsOpenTask(!isOpenTask);
     }
@@ -28,7 +33,14 @@ function Main(){
         dispatch(setSelectTask(task));
         setTaskShowModal(true);
     }
-    
+    const randomColor=()=>{
+        const r=Math.floor(Math.random()*256)
+        const g=Math.floor(Math.random()*256)
+        const b=Math.floor(Math.random()*256)
+
+        return `rgb(${r}, ${g} ,${b})`;
+    }
+   
     const handelClickOut = (event) => {
         if (modalRef.current && !modalRef.current.contains(event.target)) {
 
@@ -41,6 +53,39 @@ function Main(){
         setTaskShowModal(false);
 
     }
+    const handelChangeCoulmn=(e)=>{
+            const targetvalue=e.target.value 
+            setNewColumn(targetvalue);
+            const upateColumn=selectBoard.columns.map((col)=>{
+                if (col.tasks.some((task)=> task.id===selectTask.id)){
+                    return{
+                        ...col,
+                        tasks: col.tasks.filter((task)=>task.id!==selectTask.id),
+                    };
+                }
+               if (col.name===targetvalue){
+                return{
+                    ...col,
+                    tasks:[...col.tasks,selectTask]
+                }
+               }
+            return col;
+             }
+             );
+             dispatch(setSelectBoard({...selectBoard,columns:upateColumn}));
+             console.log(selectBoard);
+             const updateBoardSave=boardsave.map((item)=>{
+                if(item.Name === selectBoard.Name){
+                    return{
+                        ...item,columns:upateColumn,
+                    }
+                }return item;
+             });
+             dispatch(setSaveboard(updateBoardSave))
+            
+            localStorage.setItem('saveNewData',JSON.stringify(updateBoardSave));
+            setTaskShowModal(false)
+    }
     
     useEffect(() => {
         if (taskShowModal) {
@@ -52,17 +97,29 @@ function Main(){
             document.removeEventListener('mousedown', handelClickOut);
         };
     }, [taskShowModal]);
+useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem('saveNewData') || '[]');
+    if (savedData.length > 0) {
+        const boardData = savedData.find(item => item.Name === selectBoard.Name);
+        if (boardData) {
+            dispatch(setSelectBoard(boardData)); // به روزرسانی ریداکس با داده‌های ذخیره‌شده
+        }
+    }
+}, [selectBoard.Name]);
+
 
     return(
     
         <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-3  col-end-9  overflow-auto h-full max-w-screen-xl">
             <div className=" flex gap-10 pl-6 h-screen   "  style={{ minWidth: '1500px' }}>
-                {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => (
+                {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => {
+                    const color=randomColor();
+                    return(
                     <div className="flex flex-col h-full w-72">
                         <div key={index} className="text-center   "> 
                     
                             <div className='flex gap-4  items-center p-4 '>
-                                <div className={`h-4 w-4 rounded-full bg-green-200 `}></div>
+                                <div className={`h-4 w-4 rounded-full `}style={{background:color}} ></div>
                                 <span className="text-gray-400 "> 
                                 {`${col.name} (${col.tasks.length})` }
                                 </span>
@@ -77,8 +134,8 @@ function Main(){
                             ))}
                         </div> 
 
-                    </div>
-                ))  }
+                    </div>)}
+                    ) }
     
             <div className={ `${Array.isArray(selectBoard.columns) &&selectBoard.columns.length < 6 ? `w-72 flex flex-col gap-6` : ` hidden`} ` }>
                 <div className=" p-4 "></div>
@@ -113,7 +170,7 @@ function Main(){
                 <span className="text-gray-400 dark:bg-dark-primary-100 dark:text-white">{selectTask.description}</span>
                 <div  className="bg-gray-100 hover:bg-buttoncolor text-sm font-bold h-full p-4 rounded-md dark:hover:bg-purpledo  dark:bg-dark-primary-100 ">{selectTask.subtasks}</div>
                 <label className="text-gray-400 text-sm  dark:bg-dark-primary-100 dark:text-white">current state</label>
-                <select className="rounded border-2 p-2 hover:border-purpledo  dark:bg-dark-primary-100 " value={selectBoard.columns} >
+                <select className="rounded border-2 p-2 hover:border-purpledo  dark:bg-dark-primary-100 " value={newColumn} onChange={handelChangeCoulmn} >
                         <option  >
                             {selectBoard.columns.find(col => col.tasks.some(task => task.title === selectTask.title))?.name || 'Not Found'}
                         </option>
@@ -129,9 +186,7 @@ function Main(){
 
         </div>)
         }
-        {showEditTask && <EditTask/>}
-        {showTaskDelete && <DeleteTask/>}
-        
+       
     </div>
     
    

@@ -14,10 +14,12 @@ function ModalDelete(props){
             
             const  updateData=boardsave.filter(item=>item.Name !==selectBoard.Name);
             localStorage.setItem('saveNewData',JSON.stringify(updateData));
-
+            dispatch(setSelectBoard(updateData[0]))
             dispatch(setSaveboard(updateData));
-            dispatch(setSelectBoard(boardsave[0]))
+            
             dispatch(setDeleteModal(false));
+        }else{
+            setSelectBoard(null)
         }
     }
 

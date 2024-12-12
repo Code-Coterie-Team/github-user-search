@@ -11,10 +11,11 @@ import { setTheme } from "../features/themeSlice";
 
 function Sidebar() {
     const dispatch = useDispatch();
-    const [selectButton,setSelectButton]=useState(null)
-    const {showModalBoard}=useSelector((state)=>state.modals)
+    const {selectBoard}=useSelector((state)=>state.board)
     const {boardsave}=useSelector((state)=>state.boardsave || {boardsave:[]});
-    const {theme}=useSelector((state)=>state.theme);
+   const {theme}=useSelector((state)=>state.theme);
+    console.log(selectBoard);
+
     const [isChecked, setIsChecked] = useState(false);
     const [isVisibleSideBar,setIsVisibleSideBar]=useState(true)
 
@@ -44,28 +45,22 @@ function Sidebar() {
         
             dispatch(setSaveboard(parsedData));
         }
-        const lasteselectBoard=localStorage.getItem('lastSelectBoard')
-        if(lasteselectBoard){
-            const board=JSON.parse(lasteselectBoard);
-            dispatch(setSelectBoard(board))
-        }
+        
     }, [dispatch]);
     
-    const handleSelectBoard = (item,index) => {
+    const handleSelectBoard = (item) => {
             dispatch(setSelectBoard(item));
-            setSelectButton(index);
-            localStorage.setItem('lastSelectBoard',JSON.stringify(item))
 
-    };
-    const toggleSideBar=()=>{
-            setIsVisibleSideBar(!isVisibleSideBar)
-    }
+            };
+    // const toggleSideBar=()=>{
+    //         setIsVisibleSideBar(!isVisibleSideBar)
+    // }
   
     return (
 
           
         
-            <div className={`flex flex-col h-full dark:bg-dark-primary-100 dark:text-white bg-white gap-56
+            <div className={`flex flex-col h-full dark:bg-dark-primary-100 dark:text-white bg-white gap-96
                 col-span-2 border-r dark:border-r-gray-500 ${isVisibleSideBar ?'':'hidden'}` }>
                 <div className="flex flex-col  text-center  gap-4  ">
                     
@@ -73,8 +68,8 @@ function Sidebar() {
                         {(Array.isArray(boardsave) && boardsave.map((item,index) => (
                         
                         <button  key={index} className={`text-gray-500 flex gap-4 font-antialiased  text-left w-10/12 hover:text-white hover:bg-purplelight rounded-sm pl-6 
-                          rounded-r-full h-10 hover:transition ease-out p-2 ${selectButton===index ?'bg-purpledo text-white':'bg-white'}`} 
-                            onClick={() => handleSelectBoard(item,index)}>
+                          rounded-r-full h-10 hover:transition ease-out p-2 ${ item===selectBoard ?'bg-purpledo text-white':'bg-white'}`} 
+                            onClick={() => handleSelectBoard(item)}>
                             <img src="./src/assets/grid.svg" alt=""  />
                             <span>{item.Name}</span>
                         </button>
@@ -103,10 +98,8 @@ function Sidebar() {
                     </div>
     
                 </div>
-            { showModalBoard && <ModalBoard />  }
-            {/* <div className="" onClick={toggleSideBar}>{isVisibleSideBar? 'Hide SideBar':'visible SideBar'}</div> */}
-
-        </div>
+            
+          </div>
         
         
        

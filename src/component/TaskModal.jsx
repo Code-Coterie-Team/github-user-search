@@ -18,8 +18,6 @@ function ModalTask(){
     const [seletColumn,setSeclectCoulmn]=useState('');
    
     const {showTaskModal}=useSelector((state)=>state.modals);
-  
-   
     const handelSaveTask=()=>{
        if(selectBoard && seletColumn) {
         const updateColumns=selectBoard.columns.map((col)=>{
@@ -38,14 +36,14 @@ function ModalTask(){
 
                     dispatch(setSelectBoard({...selectBoard,columns:updateColumns}));
 
-                    // const storeData=JSON.parse(localStorage.getItem(('saveNewData')||['']));
-                    // const updateData=storeData.map((item)=>{
-                    //     if(item.Name===selectBoard.Name){
-                    //         return{...item,columns:updateColumns}
-                    //     }
-                    //     return item
-                    // })
-                    // localStorage.setItem('saveNewData',JSON.stringify(updateData));
+                    const storeData=JSON.parse(localStorage.getItem(('saveNewData')||['']));
+                    const updateData=storeData.map((item)=>{
+                        if(item.Name===selectBoard.Name){
+                            return{...item,columns:updateColumns}
+                        }
+                        return item
+                    })
+                    localStorage.setItem('saveNewData',JSON.stringify(updateData));
                     
                     dispatch(setShowTaskModal(false));
                     

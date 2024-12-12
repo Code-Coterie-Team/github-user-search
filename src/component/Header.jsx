@@ -1,9 +1,5 @@
-import { useEffect, useRef, useState  } from "react";
+import {  useState  } from "react";
 import { useSelector,useDispatch } from "react-redux";
-
-import { setSaveboard } from "../features/savedataSlice";
-
-import { setSelectBoard } from "../features/boardSlice";
 import { setShowEditBoard ,setDeleteModal,setShowTaskModal} from "../features/modalSlice";
 
 
@@ -13,11 +9,6 @@ function Header(){
     const [isOpen,setIsOpen]=useState(false);
     
     
-    
-    
-   
-    
- 
     const toggleMenu=()=>{
         setIsOpen(!isOpen);
     };
@@ -42,7 +33,7 @@ function Header(){
 
             </div>
             <div className=" p-6  dark:bg-dark-primary-100 dark:text-white flex  items-center justify-between   col-start-3  col-end-9 ">
-                <h2  className=" text-responsive  text-black dark:text-white  p-2">{ selectBoard? selectBoard.Name:"borad dose not exist" }</h2>
+                <h2  className=" text-responsive  text-black dark:text-white  p-2">{ selectBoard? selectBoard.Name : "borad dose not exist" }</h2>
                 <div className="flex justify-center  gap-6">
                     <button className="bg-purpledo  rounded-3xl text-white p-2 h-10" onClick={()=>dispatch(setShowTaskModal(true))}>+ Add New Task</button>
                     <div className=" relative p-2">
@@ -64,10 +55,6 @@ function Header(){
                 </div>
 
             </div>
-        
-            
-            {/* move to layot */}
-
         </div>
 
     
