@@ -7,7 +7,7 @@ import {  setShowEditBoard } from "../features/modalSlice";
 
 function EditBoard(){
     const {boardsave}=useSelector((state)=>state.boardsave);
-    const editRef=useRef(null);
+    const editBoardRef=useRef(null);
     const {showEditBoardModal }=useSelector((state)=>state.modals)
     const selectBoard=useSelector((state)=>state.board.selectBoard);
     
@@ -36,16 +36,20 @@ function EditBoard(){
 
     useEffect(()=>{
         if(showEditBoardModal){
-            document.addEventListener('mousedown',handelClick)
-        }else{
-            document.removeEventListener('mousedown',handelClick)
+            document.addEventListener('mousedown',handelClickEdit)
+            console.log('modakl');
         }
+        return(
+            document.removeEventListener('mousedown',handelClickEdit)
+        )
     },[showEditBoardModal]);
 
-    const handelClick=(event)=>{
-        if(editRef.current && !editRef.current.contains(event.target)){
-            dispatch(setShowEditBoard(false))
-
+    const handelClickEdit=(event)=>{
+        if(editBoardRef.current  && !editBoardRef.current.contains(event.target)){
+            dispatch(setShowEditBoard(false));
+            
+        }else{
+            console.log('not herhe');
         }
     }
 
@@ -77,9 +81,8 @@ function EditBoard(){
     const handelNewName=(e)=>{
         setNewBoardName(e.target.value);
     }
-        const handelSaveEdit=()=>{
-        
-            
+    
+    const handelSaveEdit=()=>{
             const updatedColumns = selectBoard.columns.map((col) => ({
                 name: col.name,
                 tasks: col.tasks,
@@ -103,32 +106,22 @@ function EditBoard(){
             dispatch(setShowEditBoard(false))
     
     }
-    useEffect(() => {
-        if (theme === "dark") {
-          document.documentElement.classList.add("dark");
-        } else {
-    
-        document.documentElement.classList.remove("dark");
-        }
-      }, [theme]);
-
+   
 
     return(
         <div className="bg-black/40 fixed top-0 left-0 h-full w-screen">
-            <div ref={editRef}  className="bg-white dark:bg-dark-primary-100 dark:text-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
-                -translate-x-1/2 -translate-y-1/2 fixed p-8 rounded  ">
+            <div ref={editBoardRef}  className="bg-white dark:bg-dark-primary-100 dark:text-white w-96 h-max top-1/2 flex flex-col gap-4 left-1/2 
+                    -translate-x-1/2 -translate-y-1/2 fixed p-8 rounded  ">
                 <div className="text-black dark:text-white">Edit Board </div>
                 <label className="text-gray-400 text-sm" >Name</label>
                 <input type="text" value={newBoardName}  onChange={handelNewName} className="border-2 rounded-sm p-2 text-sm  dark:bg-dark-primary-100 dark:border-dark-primary-200"/>
                 <label className="text-gray-400" >columns</label>
-        
                     {Array.isArray(selectBoard.columns )&&selectBoard.columns.map((col,index)=>{
                         return(
-                            
-                            <div className="flex  gap-1 w-full">
-
-                                <input type="text"  value={col.name}
-                                    key={index} 
+                            <div className="flex  gap-1 w-full" key={index} >
+                                <input type="text"  
+                                    value={col.name}
+                                    
                                     onChange={(e)=>{
                                     const newCoulmns=[...selectBoard.columns];
                                     newCoulmns[index]=e.target.value;
@@ -136,7 +129,7 @@ function EditBoard(){
                                     
                                     className="border-2 rounded-sm p-2 w-full dark:bg-dark-primary-100 dark:border-dark-primary-200"
                                 />
-                                <button className="bg-transparent h-5 w-5 rounded-full text-gray-400"  key={index} onClick={()=>(handelDeleteColumn(index))}>X</button>
+                                <button className="bg-transparent h-5 w-5 rounded-full text-gray-400"   onClick={()=>(handelDeleteColumn(index))}>X</button>
                             </div>        
                         )
                         }) 

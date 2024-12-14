@@ -35,7 +35,8 @@ function ModalBoard(){
         dispatch(setSelectBoard(selectboarddata));
         
         localStorage.setItem('saveNewData', JSON.stringify(updateData));
-       
+    
+    
         setNewColumnName([{name:'',tasks:[]}]);
         setNewBoardName('');
         
@@ -67,7 +68,9 @@ function ModalBoard(){
         }
         // return
 
-    },[showModalBoard])
+    },[showModalBoard]);
+
+
 
     const handelClickOut=(event)=>{
         if(boradRef.current && !boradRef.current.contains(event.target)){

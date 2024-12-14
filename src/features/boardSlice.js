@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 
 const initialState = {
-    selectBoard:{},
+    selectBoard:JSON.parse(localStorage.getItem('selectBoard')) || {},
 };
 const boardSlice=createSlice({
     name:'board',

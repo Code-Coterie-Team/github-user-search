@@ -63,25 +63,25 @@ function Main(){
                         tasks: col.tasks.filter((task)=>task.id!==selectTask.id),
                     };
                 }
-               if (col.name===targetvalue){
+                if (col.name===targetvalue){
                 return{
                     ...col,
                     tasks:[...col.tasks,selectTask]
                 }
-               }
+                }
             return col;
              }
              );
-             dispatch(setSelectBoard({...selectBoard,columns:upateColumn}));
-             console.log(selectBoard);
-             const updateBoardSave=boardsave.map((item)=>{
+            dispatch(setSelectBoard({...selectBoard,columns:upateColumn}));
+            localStorage.setItem('selectBoard',JSON.stringify(selectBoard));
+            const updateBoardSave=boardsave.map((item)=>{
                 if(item.Name === selectBoard.Name){
                     return{
                         ...item,columns:upateColumn,
                     }
                 }return item;
-             });
-             dispatch(setSaveboard(updateBoardSave))
+            });
+            dispatch(setSaveboard(updateBoardSave))
             
             localStorage.setItem('saveNewData',JSON.stringify(updateBoardSave));
             setTaskShowModal(false)
@@ -115,13 +115,13 @@ useEffect(() => {
                 {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => {
                     const color=randomColor();
                     return(
-                    <div className="flex flex-col h-full w-72">
-                        <div key={index} className="text-center   "> 
+                    <div className="flex flex-col h-full w-72"  key={index}>
+                        <div className="text-center   "> 
                     
                             <div className='flex gap-4  items-center p-4 '>
                                 <div className={`h-4 w-4 rounded-full `}style={{background:color}} ></div>
                                 <span className="text-gray-400 "> 
-                                {`${col.name} (${col.tasks.length})` }
+                                {`${col?.name} (${col?.tasks?.length})` }
                                 </span>
                             </div>
                         </div> 
@@ -177,9 +177,6 @@ useEffect(() => {
                         {selectBoard.columns.map((col,index)=>(
                             <option value={col.name} key={index}>{col.name}</option>)
                         )}
-                
-                    
-
                 </select>
                 
             </div>
