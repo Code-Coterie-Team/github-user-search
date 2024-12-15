@@ -55,12 +55,16 @@ function Main(){
     }
     const handelChangeCoulmn=(e)=>{
             const targetvalue=e.target.value 
+            
             setNewColumn(targetvalue);
             const upateColumn=selectBoard.columns.map((col)=>{
-                if (col.tasks.some((task)=> task.id===selectTask.id)){
+
+                if (col.tasks.some((task)=> task.title===selectTask.title)){
+                    const updateTask=col.tasks.filter((task)=> task.title !==selectTask.title)
+                    
                     return{
                         ...col,
-                        tasks: col.tasks.filter((task)=>task.id!==selectTask.id),
+                        tasks:updateTask,
                     };
                 }
                 if (col.name===targetvalue){
@@ -69,9 +73,9 @@ function Main(){
                     tasks:[...col.tasks,selectTask]
                 }
                 }
-            return col;
-             }
-             );
+                return col;
+            });
+            
             dispatch(setSelectBoard({...selectBoard,columns:upateColumn}));
             localStorage.setItem('selectBoard',JSON.stringify(selectBoard));
             const updateBoardSave=boardsave.map((item)=>{

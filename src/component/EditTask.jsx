@@ -9,7 +9,7 @@ import { use } from "react"
 
 function EditTask(){
     const {selectTask}=useSelector((state)=>state.selectTask)
-    console.log(selectTask);
+    
     const taskEitRef=useRef(null)
     const dispatch=useDispatch()
     const [editTitle,setEditTitle]=useState(selectTask.title);
@@ -20,7 +20,7 @@ function EditTask(){
    const [seletColumn, setSeclectCoulmn] = useState(selectBoard.columns.find((col) =>
         col.tasks.some((task) => task.id === selectTask.id)
     )?.name);
-    console.log(selectTask);
+    console.log(selectBoard);
    
     const {showEditTask}=useSelector((state)=>state.modals)
     
@@ -61,13 +61,14 @@ function EditTask(){
         if (col.name === currentColumnName && currentColumnName !== seletColumn) {
             return {
                 ...col,
-                tasks: col.tasks.filter((task) => task.id !== selectTask.id),
+                tasks: col.tasks.filter((task) => task.title !== selectTask.title),
+                
             };
         }
         
         if (col.name === seletColumn) {
-            const updateTasks=col.tasks.some((task)=> task.id===selectTask.id) ?
-            col.tasks.map((task)=>task.id===selectTask.id ? updateSelectTask:task):
+            const updateTasks=col.tasks.some((task)=> task.title===selectTask.title) ?
+            col.tasks.map((task)=>task.title===selectTask.title ? updateSelectTask:task):
             [...col.tasks,updateSelectTask]
             return{
                 ...col,tasks:updateTasks
@@ -78,7 +79,6 @@ function EditTask(){
         
     });
 
-    console.log("Updated Columns:", updateTaskColumn);
     dispatch(setSelectBoard({ ...selectBoard, columns: updateTaskColumn }));
     dispatch(setSelectTask(updateSelectTask));
     dispatch(setShowEditTask(false));
