@@ -75,7 +75,9 @@ function Main(){
                 }
                 return col;
             });
-            
+             
+
+            console.log('hi');
             dispatch(setSelectBoard({...selectBoard,columns:upateColumn}));
             localStorage.setItem('selectBoard',JSON.stringify(selectBoard));
             const updateBoardSave=boardsave.map((item)=>{
