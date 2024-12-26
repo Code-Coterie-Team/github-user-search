@@ -59,7 +59,7 @@ function Main(){
             setNewColumn(targetvalue);
             const upateColumn=selectBoard.columns.map((col)=>{
 
-                if (col.tasks.some((task)=> task.title===selectTask.title)){
+                if (col.tasks.find((task)=> task.title===selectTask.title)){
                     const updateTask=col.tasks.filter((task)=> task.title !==selectTask.title)
                     
                     return{
@@ -77,7 +77,7 @@ function Main(){
             });
              
 
-            console.log('hi');
+            
             dispatch(setSelectBoard({...selectBoard,columns:upateColumn}));
             localStorage.setItem('selectBoard',JSON.stringify(selectBoard));
             const updateBoardSave=boardsave.map((item)=>{
@@ -108,7 +108,7 @@ useEffect(() => {
     if (savedData.length > 0) {
         const boardData = savedData.find(item => item.Name === selectBoard.Name);
         if (boardData) {
-            dispatch(setSelectBoard(boardData)); // به روزرسانی ریداکس با داده‌های ذخیره‌شده
+            dispatch(setSelectBoard(boardData));
         }
     }
 }, [selectBoard.Name]);
@@ -116,7 +116,7 @@ useEffect(() => {
 
     return(
     
-        <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-3  col-end-9  overflow-auto h-full max-w-screen-xl">
+        <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-3  col-end-10  overflow-auto h-full max-w-screen-xl">
             <div className=" flex gap-10 pl-6 h-screen   "  style={{ minWidth: '1500px' }}>
                 {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => {
                     const color=randomColor();
@@ -131,10 +131,10 @@ useEffect(() => {
                                 </span>
                             </div>
                         </div> 
-                        <div className= {`flex flex-col  gap-6 h-full rounded border-gray-400 ${col.tasks.length === 0 ?'border-2 border-dashed border-gray-30 h-full':''}`} >
+                        <div className= {`flex flex-col  gap-6  h-full rounded border-gray-400 ${col.tasks.length === 0 ?'border-2 border-dashed border-gray-300 h-full':''}`} >
                             {col.tasks.map((task,taskIndex)=>(
-                                <div key={taskIndex} className=" w-full h-30 p-2 bg-white   dark:bg-dark-primary-100 dark:text-white hover:opacity-20 cursor-pointer rounded-lg shadow-md text-left " onClick={()=>openTaskDetail(task)}>
-                                    <h4 className=" text-sm font-bold p-2">{task.title}</h4>
+                                <div key={taskIndex} className=" w-full h-30  bg-white  p-6  dark:bg-dark-primary-100 dark:text-white hover:opacity-20 cursor-pointer rounded-lg shadow-md text-left " onClick={()=>openTaskDetail(task)}>
+                                    <h4 className=" text-base font-bold p-2">{task.title}</h4>
                                     <span className="text-gray-400  p-2 text-sm"> {task.subtasks}</span>
                                 </div>
                             ))}
@@ -178,7 +178,7 @@ useEffect(() => {
                 <label className="text-gray-400 text-sm  dark:bg-dark-primary-100 dark:text-white">current state</label>
                 <select className="rounded border-2 p-2 hover:border-purpledo  dark:bg-dark-primary-100 " value={newColumn} onChange={handelChangeCoulmn} >
                         <option  >
-                            {selectBoard.columns.find(col => col.tasks.some(task => task.title === selectTask.title))?.name || 'Not Found'}
+                            {selectBoard.columns.find(col => col.tasks.find(task => task.title === selectTask.title))?.name || 'Not Found'}
                         </option>
                         {selectBoard.columns.map((col,index)=>(
                             <option value={col.name} key={index}>{col.name}</option>)

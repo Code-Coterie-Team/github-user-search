@@ -16,7 +16,7 @@ function App(){
       {/* move provider to main.jsx */}
         
               <Layout>
-                <div className=" h-screen grid grid-cols-8">
+                <div className=" h-screen grid grid-cols-9">
                   <Sidebar />
                   <Main/>
               

@@ -13,17 +13,13 @@ function EditTask(){
     const taskEitRef=useRef(null)
     const dispatch=useDispatch()
     const [editTitle,setEditTitle]=useState(selectTask.title);
-    console.log(editTitle);
+   
     const [editDescribe,setEditDescrib]=useState(selectTask.description);
     const [editSub,setEditSub]=useState(selectTask.subtasks ||[]);
     const selectBoard=useSelector((state)=>state.board.selectBoard);
-   const [seletColumn, setSeclectCoulmn] = useState(selectBoard.columns.find((col) =>
-        col.tasks.some((task) => task.id === selectTask.id)
-    )?.name);
-    console.log(selectBoard);
-   
-    const {showEditTask}=useSelector((state)=>state.modals)
-    
+   const [seletColumn, setSeclectCoulmn] = useState('')
+   const {showEditTask}=useSelector((state)=>state.modals)
+   console.log(seletColumn);
 
     const handelEditTitle=(e)=>{
         const newTitle=e.target.value;
@@ -44,44 +40,22 @@ function EditTask(){
         setSeclectCoulmn(newColumn);
     }
     
-   const handelSaveEditTask = () => {
+const handelSaveEditTask = () => {
     const updateSelectTask = {
         ...selectTask,
         title: editTitle,
         description: editDescribe,
         subtasks: Array.isArray(editSub) ? editSub : [editSub],
     };
-
-    const currentColumnName = selectBoard.columns.find((col) =>
-        col.tasks.some((task) => task.id === selectTask.id)
-    )?.name;
-
-    const updateTaskColumn = selectBoard.columns.map((col) => {
     
-        if (col.name === currentColumnName && currentColumnName !== seletColumn) {
-            return {
-                ...col,
-                tasks: col.tasks.filter((task) => task.title !== selectTask.title),
-                
-            };
+    
+    const colname=selectBoard.columns.find(col=>col.tasks.find(task=>task.title ===selectTask.title))
+    const updateColumn=selectBoard.columns.map((col)=>{
+        if (col.tasks.find((task)=> task.title===selectTask.title)){
+            
         }
-        
-        if (col.name === seletColumn) {
-            const updateTasks=col.tasks.some((task)=> task.title===selectTask.title) ?
-            col.tasks.map((task)=>task.title===selectTask.title ? updateSelectTask:task):
-            [...col.tasks,updateSelectTask]
-            return{
-                ...col,tasks:updateTasks
-            }
-            };
-
-        return col;
-        
-    });
-
-    dispatch(setSelectBoard({ ...selectBoard, columns: updateTaskColumn }));
-    dispatch(setSelectTask(updateSelectTask));
-    dispatch(setShowEditTask(false));
+    })
+    
 };
 
         
@@ -123,7 +97,7 @@ function EditTask(){
             <label className="text-gray-400" >Status</label>
             <select className="border-2 rounded-2xl p-2" value={seletColumn} onChange={handeleditColumn} >
                 <option > 
-                    {selectBoard.columns.find(col=> col.tasks.some(task=>task.title ===selectTask.title))?.name ||'not found'}
+                    {selectBoard.columns.find(col=> col.tasks.find(task=>task.title ===selectTask.title))?.name ||'not found'}
 
                 </option>
                 {selectBoard.columns.map((col,index)=>(

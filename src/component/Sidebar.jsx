@@ -4,7 +4,7 @@ import { setSelectBoard } from "../features/boardSlice";
 
 import { setSaveboard } from "../features/savedataSlice";
 
-import { setDeleteModal ,setShowModalBoard} from "../features/modalSlice";
+
 
 import { setTheme } from "../features/themeSlice";
 
@@ -65,15 +65,15 @@ function Sidebar() {
 
           
         
-            <div className={`flex flex-col h-full dark:bg-dark-primary-100 dark:text-white bg-white gap-72
-                col-span-2 border-r dark:border-r-gray-500 ${isVisibleSideBar ?'':'hidden'}` }>
-                <div className="flex flex-col  text-center  gap-4  ">
+            <div className={`flex flex-col  overflow-y-hidden dark:bg-dark-primary-100 dark:text-white bg-white 
+                col-span-2 border-r justify-between pb-20 dark:border-r-gray-500 ${isVisibleSideBar ?'':'hidden'}` }>
+                <div className="flex flex-col  text-center   gap-4  ">
                     
-                    <div className="text-xs  text-gray-400 flex   p-4">ALL BOARDS {`(${boardsave.length})`}</div>
+                    <div className="text-xs  text-gray-400 flex   p-2">ALL BOARDS {`(${boardsave.length})`}</div>
                         {(Array.isArray(boardsave) && boardsave.map((item,index) => (
                           
-                        <button  key={index} className={`text-gray-500 flex gap-4 font-sans text-left w-10/12 hover:text-white hover:bg-purplelight rounded-sm pl-6 
-                          rounded-r-full h-10 hover:transition ease-out p-2 ${ item.Name === selectBoard.Name ?'bg-purpledo text-white':''}`} 
+                        <button  key={index} className={`text-gray-500  flex gap-6 font-semibold font-sans text-left w-10/12 hover:text-white hover:bg-purplelight text-3xlrounded-sm pl-6 
+                          rounded-r-full h-12 hover:transition ease-out p-2 ${ item.Name === selectBoard.Name ?'bg-purpledo text-white':''}`} 
                             onClick={() => handleSelectBoard(item)}>
                             <img src="./src/assets/grid.svg" alt=""  />
                             <span>{item.Name}</span>
@@ -85,7 +85,7 @@ function Sidebar() {
                     </button> 
                 </div>
                 
-                <div className="flex flex-col items-center justify-center p-4">
+                <div className="flex flex-col items-center justify-center p-8">
                     <div className="flex gap-4 justify-center items-center  p-2 rounded-sm w-full h-12 bg-buttoncolor dark:bg-dark-primary-200">
                         <img src="./src/assets/moon.svg" alt="" />
                         <label className="flex cursor-pointer select-none items-center">
