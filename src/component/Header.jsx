@@ -32,8 +32,8 @@ function Header(){
                 <img src="./src/assets/logo-dark.8590e096.svg" alt="" />
 
             </div>
-            <div className=" p-6  dark:bg-dark-primary-100 dark:text-white flex  items-center justify-between   col-start-3  col-end-9 ">
-                <h2  className=" text-3xl font-bold text-black dark:text-white  p-2">{ selectBoard? selectBoard.Name : "borad dose not exist" }</h2>
+            <div className=" p-6  dark:bg-dark-primary-100 dark:text-white flex  items-center justify-between   col-start-3  col-end-10 ">
+                <h1  className=" text-2xl font-medium text-black dark:text-white  p-2">{ selectBoard? selectBoard.Name : "borad dose not exist" }</h1>
                 <div className="flex justify-center  gap-6">
                     <button className="bg-purpledo font-bold  rounded-3xl text-white p-2 h-12 w-40" onClick={()=>dispatch(setShowTaskModal(true))}>+ Add New Task</button>
                     <div className=" relative p-2">

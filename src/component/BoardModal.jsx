@@ -66,7 +66,8 @@ function ModalBoard(){
         }else{
             document.removeEventListener('mousedown',handelClickOut)
         }
-        // return
+        
+        
 
     },[showModalBoard]);
 
@@ -81,22 +82,22 @@ function ModalBoard(){
     return(
 
         <div className="bg-black/40 fixed w-full h-screen top-0 left-0">
-            <div ref={boradRef} className="fixed dark:bg-dark-primary-100 dark:text-white bg-white top-1/2 left-1/2 w-1/3 h-max -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-9 rounded-xl">
-            <span>Add New Board</span>
+            <div ref={boradRef} className="fixed dark:bg-dark-primary-100 dark:text-white bg-white top-1/2 left-1/2  w-2/5 h-3/5 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-6 p-9 rounded-xl">
+            <span className="font-bold text-xl">Add New Board</span>
             <form className="flex flex-col">
-                <label className="text-sm p-2 text-gray-400">Name</label>
+                <label className="text-sm p-2 font-bold text-gray-400">Name</label>
                 <input 
                     required
                     name="boardName" 
                     type="text" 
-                    className="border-2  rounded-md h-10  hover:border-purpledo  dark:border-dark-primary-200 dark:bg-dark-primary-100" 
+                    className="border-2 p-2 rounded-md h-10  hover:border-purpledo  dark:border-dark-primary-200 dark:bg-dark-primary-100" 
                     value={ newBoardName}  
                     onChange={(e) =>{handelInputChange(e);
                         ;
                     }} 
             
                 />
-                <label className="text-sm p-2 text-gray-400">Columns</label>
+                <label className="text-sm p-2 font-bold text-gray-400">Columns</label>
                 <div className="flex flex-col gap-2  ">
                     { Array.isArray(newColumnName)&& newColumnName.map((col,index)=>
                        <input type="text" name="column" required  value={col.name} key={index} onChange={(e)=>{handelColumnChange(index,e.target.value);

@@ -8,9 +8,11 @@ import ModalBoard from './BoardModal';
 import EditTask from './EditTask';
 import ModalTask from "./TaskModal";
 import DeleteTask from './DeletTask';
+import ShowTaskModal from './ShowTaskModal';
 
 const Layout = (props) => {
-    const {showTaskModal}=useSelector((state)=>state.modals)
+    const {showTaskModal}=useSelector((state)=>state.modals);
+    const{showTaskModalMain}=useSelector((state)=>state.modals)
     const {modalDelete}=useSelector((state)=>state.modals);
     const {showEditBoardModal }=useSelector((state)=>state.modals)
     const selectBoard=useSelector((state)=>state.board.selectBoard);
@@ -30,6 +32,8 @@ const Layout = (props) => {
         { showModalBoard && <ModalBoard />  }
         {showEditTask && <EditTask/>}
         {showTaskDelete && <DeleteTask/>}
+        {showTaskModalMain && <ShowTaskModal/>}
+        
         
             
     

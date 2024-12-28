@@ -2,7 +2,7 @@ import {configureStore} from  '@reduxjs/toolkit';
 import boardSlice from './boardSlice';
 import saveBoardSlice from './savedataSlice';
 import { data } from 'autoprefixer';
-import modalDeleteSlice from './modalSlice'
+import modalSlice from './modalSlice'
 import themeSlice from './themeSlice'
 import selectTaskSlice from './selecttaskSlice'
 
@@ -10,7 +10,7 @@ const store=configureStore({
     reducer:{
         board: boardSlice, 
         boardsave:saveBoardSlice,
-        modals:modalDeleteSlice,
+        modals:modalSlice,
         theme:themeSlice,
         selectTask:selectTaskSlice,
     },
