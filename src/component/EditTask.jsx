@@ -17,7 +17,7 @@ function EditTask(){
     const [editDescribe,setEditDescrib]=useState(selectTask.description);
     const [editSub,setEditSub]=useState(selectTask.subtasks ||[]);
     const selectBoard=useSelector((state)=>state.board.selectBoard);
-   const [seletColumn, setSeclectCoulmn] = useState('')
+   const [seletColumn, setSeclectCoulmn] = useState(null);
    const {showEditTask}=useSelector((state)=>state.modals)
    console.log(seletColumn);
 
@@ -36,7 +36,7 @@ function EditTask(){
         setEditSub(newSubtasks);
     }
     const handeleditColumn=(e)=>{
-        const newColumn=e.target.value
+        const newColumn=selectBoard.columns.find(col=> col.name===e.target.value)
         setSeclectCoulmn(newColumn);
     }
     
@@ -48,15 +48,34 @@ const handelSaveEditTask = () => {
         subtasks: Array.isArray(editSub) ? editSub : [editSub],
     };
     
-    
-    const colname=selectBoard.columns.find(col=>col.tasks.find(task=>task.title ===selectTask.title))
+    const currentColumn = selectBoard.columns.find(col => 
+        col.tasks.some(task => task.title === selectTask.title)
+    );
+
     const updateColumn=selectBoard.columns.map((col)=>{
-        if (col.tasks.find((task)=> task.title===selectTask.title)){
+            if (col.name === currentColumn?.name) {
+                    const updatedTasks = col.tasks.filter(task => task.title !== selectTask.title);
+                    if(!seletColumn && col.name===currentColumn?.name){
+                        return{...col,tasks:[...updatedTasks,updateSelectTask]}
+                    }
+                    return {...col,tasks:updatedTasks}
+             }
             
-        }
-    })
+          
+            
+            if (col.name === seletColumn?.name) {
+            return { ...col, tasks: [...col.tasks, updateSelectTask] };
+            }
+            
+            return col;
+        });
+
     
-};
+   
+            dispatch(setSelectBoard({...selectBoard,columns:updateColumn}));
+            dispatch(setShowEditTask(false))
+}
+
 
         
     

@@ -51,7 +51,7 @@ const ShowTaskModal=()=>{
                     }
                     return col;
                 });
-                 
+                
     
                 
                 dispatch(setSelectBoard({...selectBoard,columns:upateColumn}));
