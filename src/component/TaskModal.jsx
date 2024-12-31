@@ -74,8 +74,8 @@ function ModalTask(){
             <div ref={modaltaskRef} className="bg-white dark:bg-dark-primary-100  text-gray-950  dark:text-white fixed top-1/2 left-1/2 w-5/12 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-4 p-6 rounded-xl"  >
                 <label className="text-gray-500  " >Title</label>
                 <input type="text" className="border-2 border-gray-300 rounded p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100" required value={taskTitle} onChange={(e)=>setTaskTitle(e.target.value)}/>
-                <label className="text-gray-400">Description</label>
-                <input type="text" className="border-2  border-gray-300 roundedh-20 p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100" value={taskDescription} onChange={(e)=> setTaskDescription(e.target.value)} />
+                <label className="text-gray-400 ">Description</label>
+                <input type="text" className="border-2  border-gray-300 h-20  roundedh-20 p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100" value={taskDescription} onChange={(e)=> setTaskDescription(e.target.value)} />
                 <label  className="text-gray-400">Subtasks</label>
                 <input type="text" className="border-2 p-2 border-gray-300 rounded  dark:bg-dark-primary-200 dark:border-dark-primary-100"  required value={subtask} onChange={(e)=>setSubtask(e.target.value)} />
                 <button className="bg-buttoncolor text-purpledo rounded-2xl">+ Add New Subtask</button>

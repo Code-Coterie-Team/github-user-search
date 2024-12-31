@@ -21,7 +21,7 @@ const Layout = (props) => {
     const {showTaskDelete}=useSelector((state)=>state.modals);
     
   return (
-    <div>
+    <div className='font-bold'>
         <Header />
         {props.children}
 

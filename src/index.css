@@ -7,9 +7,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 } */
-
+:root{
+  
+}
 body{
-    
+     -webkit-font-smoothing: antialiased;
+    font-size: 16px;
     font-family: 'Plus Jakarta Sans', sans-serif;
     overflow: hidden;
 } 

@@ -69,7 +69,7 @@ function Sidebar() {
                 col-span-2 border-r justify-between pb-20 dark:border-r-gray-500 ${isVisibleSideBar ?'':'hidden'}` }>
                 <div className="flex flex-col  text-center  gap-4  ">
                     
-                    <div className="text-xs  text-gray-400 flex p-6 ">ALL BOARDS {`(${boardsave.length})`}</div>
+                    <div className="text-base font-bold  text-gray-400 flex p-6 ">ALL BOARDS {`(${boardsave.length})`}</div>
                         {(Array.isArray(boardsave) && boardsave.map((item,index) => (
                           
                         <button  key={index} className={`text-gray-500  flex gap-6 font-semibold font-sans text-left w-10/12 hover:text-white hover:bg-purplelight text-3xlrounded-sm pl-6 
@@ -81,7 +81,7 @@ function Sidebar() {
                     )))}
                     <button className="text-purpledo pl-6 flex gap-4" onClick={() => dispatch(setShowModalBoard(true))}>
                         <img src="./src/assets/grid.svg" alt="" />
-                        <span>+ Create New Board</span>
+                        <span className="font-semibold">+ Create New Board</span>
                     </button> 
                 </div>
                 
