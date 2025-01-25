@@ -7,7 +7,7 @@ import ModalTask from "./TaskModal";
 import EditTask from "./EditTask";
 import DeleteTask from "./DeletTask";
 import { setSelectBoard } from "../features/boardSlice";
-import { useDrag } from "react-dnd";
+
 
 
 const ShowTaskModal=()=>{
@@ -20,16 +20,7 @@ const ShowTaskModal=()=>{
     const {selectTask}=useSelector((state)=>state.selectTask)
     const {boardsave}=useSelector((state)=>state.boardsave || {boardsave:[]});
     const dispatch=useDispatch()
-    const [{ opacity }, dragRef] = useDrag(
-    () => ({
-      type: ItemTypes.CARD,
-      item: { text },
-      collect: (monitor) => ({
-        opacity: monitor.isDragging() ? 0.5 : 1
-      })
-    }),
-    []
-  )
+ 
     const handelEdit=()=>{
         dispatch(setShowEditTask(true));
         dispatch(setShowTaskModalMain(false))
@@ -99,7 +90,7 @@ const ShowTaskModal=()=>{
     return(
             
        
-        <div ref={dragRef} className="bg-black/40 fixed top-0 left-0 h-screen w-full">
+        <div className="bg-black/40 fixed top-0 left-0 h-screen w-full">
             <div  ref={modalRef} className="bg-white dark:bg-dark-primary-100   dark:text-white  fixed w-2/5 max-h-max flex flex-col  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-max p-8 rounded gap-8" >
                 <div className="flex justify-between  dark:bg-dark-primary-10 ">
                     <div className="text-lg font-bold  dark:bg-dark-primary-100 ">{selectTask.title}</div>

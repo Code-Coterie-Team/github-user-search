@@ -56,7 +56,7 @@ useEffect(() => {
                                 </span>
                             </div>
                         </div> 
-                        <div className= {`flex flex-col  gap-6 rounded border-gray-400 ${col.tasks.length === 0 ?'border-2 border-dashed border-gray-300 h-full':''}`} >
+                        <div className= {`flex flex-col  gap-6 rounded border-gray-400 ${col.tasks.length === 0 ?'border-2 border-dashed border-gray-300 h-[75vh] ':''}`} >
                             {col.tasks.map((task,taskIndex)=>(
                                 <div key={taskIndex} className=" w-full h-30  bg-white  p-6  dark:bg-dark-primary-100 dark:text-white hover:opacity-20 cursor-pointer rounded-lg shadow-md text-left " 
                                     onClick={()=>openTaskDetail(task)}>
