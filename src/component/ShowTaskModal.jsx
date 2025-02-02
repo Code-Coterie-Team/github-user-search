@@ -93,6 +93,7 @@ const ShowTaskModal=()=>{
         <div className="bg-black/40 fixed top-0 left-0 h-screen w-full">
             <div  ref={modalRef} className="bg-white dark:bg-dark-primary-100   dark:text-white  fixed w-2/5 max-h-max flex flex-col  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-max p-8 rounded gap-8" >
                 <div className="flex justify-between  dark:bg-dark-primary-10 ">
+                    
                     <div className="text-lg font-bold  dark:bg-dark-primary-100 ">{selectTask.title}</div>
                     <div className=" relative">
                         <div className="flex flex-col  cursor-pointer gap-1" onClick={toggleMenu}>

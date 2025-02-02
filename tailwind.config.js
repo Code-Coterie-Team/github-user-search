@@ -12,6 +12,7 @@ export default {
         purpledo:"#635fc7",
         purplelight:'rgba(99, 95, 199, 0.5)',
         buttoncolor:'#f0effa',
+        modecolor:'#828fa3',
         bgmain:'#F4F7FD',
         dark: {
         primary: {

@@ -42,26 +42,26 @@ useEffect(() => {
     return(
     
         <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-3  col-end-10  overflow-auto h-full max-w-screen-xl">
-            <div className=" flex gap-10 pl-6  "  style={{minHeight:'1500 px',minWidth: '1500px' }}>
+            <div className=" flex gap-10 pl-6 "  style={{minHeight:'1500 px',minWidth: '1500px' }}>
                 {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => {
                     const color=randomColor();
                     return(
-                    <div className="flex flex-col "  style={ {width:'20rem'}} key={index}>
+                    <div className="flex flex-col w-72  "   key={index}>
                         <div className="text-center   "> 
                     
                             <div className='flex gap-4  items-center p-4 '>
                                 <div className={`h-4 w-4 rounded-full `}style={{background:color}} ></div>
-                                <span className="text-gray-400 "> 
+                                <span className="text-gray-400  text-xs tracking-widest "> 
                                 {`${col?.name} (${col?.tasks?.length})` }
                                 </span>
                             </div>
                         </div> 
-                        <div className= {`flex flex-col  gap-6 rounded border-gray-400 ${col.tasks.length === 0 ?'border-2 border-dashed border-gray-300 h-[75vh] ':''}`} >
+                        <div className= {`flex flex-col w-72 gap-6 rounded border-gray-400 ${col.tasks.length === 0 ?'border-2 border-dashed  border-gray-300 h-[73vh] ':''}`} >
                             {col.tasks.map((task,taskIndex)=>(
-                                <div key={taskIndex} className=" w-full h-30  bg-white  p-6  dark:bg-dark-primary-100 dark:text-white hover:opacity-20 cursor-pointer rounded-lg shadow-md text-left " 
+                                <div key={taskIndex} className="  h-30 w-full  bg-white  p-2  dark:bg-dark-primary-100 dark:text-white hover:opacity-20 cursor-pointer rounded-lg shadow-md text-left " 
                                     onClick={()=>openTaskDetail(task)}>
-                                    <h4 className=" text-base font-bold p-2">{task.title}</h4>
-                                    <span className="text-gray-400  p-2 text-sm"> {task.subtasks}</span>
+                                    <h4 className=" text-sm font-bold p-2">{task.title}</h4>
+                                    <span className="text-gray-400  p-2 text-xs"> {task.subtasks}</span>
                                 </div>
                             ))}
                         </div> 

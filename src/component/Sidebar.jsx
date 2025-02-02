@@ -67,27 +67,27 @@ function Sidebar() {
         
             <div className={`flex flex-col  overflow-y-hidden dark:bg-dark-primary-100 dark:text-white bg-white 
                 col-span-2 border-r justify-between pb-20 dark:border-r-gray-500 ${isVisibleSideBar ?'':'hidden'}` }>
-                <div className="flex flex-col  text-center  gap-4  ">
+                <div className="flex flex-col  text-center  gap-2  ">
                     
-                    <div className="text-base font-bold  text-gray-400 flex p-6 ">ALL BOARDS {`(${boardsave.length})`}</div>
+                    <div className="text-xs  tracking-widest text-gray-400 flex p-6 ">ALL  BOARDS {`(${boardsave.length})`}</div>
                         {(Array.isArray(boardsave) && boardsave.map((item,index) => (
                           
-                        <button  key={index} className={`text-gray-500  flex gap-6 font-semibold font-sans text-left w-10/12 hover:text-white hover:bg-purplelight text-3xlrounded-sm pl-6 
+                        <button  key={index} className={`text-gray-500  flex gap-6 font-semibold font-sans text-left w-10/12 hover:text-white hover:bg-purplelight text-base tracking-wide   items-center break-words  rounded-sm pl-6 
                           rounded-r-full h-12 hover:transition ease-out p-2 ${ item.Name === selectBoard.Name ?'bg-purpledo text-white':''}`} 
                             onClick={() => handleSelectBoard(item)}>
-                            <img src="./src/assets/grid.svg" alt=""  />
+                            <img src="./src/assets/grid.svg" alt="kanban-grid"  />
                             <span>{item.Name}</span>
                         </button>
                     )))}
                     <button className="text-purpledo pl-6 flex gap-4" onClick={() => dispatch(setShowModalBoard(true))}>
-                        <img src="./src/assets/grid.svg" alt="" />
+                        <img src="./src/assets/grid.svg" alt="kanban-grid" className="fill-purpledo" />
                         <span className="font-semibold">+ Create New Board</span>
                     </button> 
                 </div>
                 
                 <div className="flex flex-col items-center justify-center p-8">
-                    <div className="flex gap-4 justify-center items-center  p-2 rounded-sm w-full h-12 bg-buttoncolor dark:bg-dark-primary-200">
-                        <img src="./src/assets/moon.svg" alt="" />
+                    <div className="flex gap-6 justify-center items-center  p-4 rounded-md w-full h-10 bg-bgmain dark:bg-dark-primary-200">
+                        <img src="./src/assets/moon.svg" alt="" className="text-modecolor"/>
                         <label className="flex cursor-pointer select-none items-center">
                             <div className=" relative">
                                 <input type="checkbox"
