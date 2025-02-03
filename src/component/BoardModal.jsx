@@ -84,8 +84,8 @@ function ModalBoard(){
         <div className="bg-black/40 fixed w-full h-screen top-0 left-0">
             <div ref={boradRef} className="fixed dark:bg-dark-primary-100 dark:text-white bg-white top-1/2 left-1/2  w-2/5 h-3/5 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-6 p-9 rounded-xl">
             <span className="font-bold text-xl">Add New Board</span>
-            <form className="flex flex-col">
-                <label className="text-sm p-2 font-bold text-gray-400">Name</label>
+            <form className="flex text-xs flex-col">
+                <label className=" p-2 font-bold text-gray-400">Name</label>
                 <input 
                     required
                     name="boardName" 
@@ -97,7 +97,7 @@ function ModalBoard(){
                     }} 
             
                 />
-                <label className="text-sm p-2 font-bold text-gray-400">Columns</label>
+                <label className=" p-2 font-bold text-gray-400">Columns</label>
                 <div className="flex flex-col gap-2  ">
                     { Array.isArray(newColumnName)&& newColumnName.map((col,index)=>
                        <input type="text" name="column" required  value={col.name} key={index} onChange={(e)=>{handelColumnChange(index,e.target.value);
@@ -111,8 +111,8 @@ function ModalBoard(){
                 
                 
             </form>
-            <button className="text-purple dark:text-purpledo p-2 rounded-xl bg-buttoncolor text-base" onClick={addNewColumn}> + Add New Column </button>
-            <button className="bg-purpledo text-white font-thin rounded-xl p-2" onClick={handelSave}>Create New Board </button>
+            <button className="text-purpledo p-2 rounded-xl bg-buttoncolor text-xs" onClick={addNewColumn}> + Add New Column </button>
+            <button className="bg-purpledo text-white text-xs rounded-xl p-2" onClick={handelSave}>Create New Board </button>
         </div>
     </div>
     )

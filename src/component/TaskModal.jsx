@@ -100,13 +100,13 @@ function ModalTask() {
         </button>
         <label className="text-modecolor text-xs ">Status</label>
         <select
-          className="border-2 rounded-2xl p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100"
+          className="border-2 text-modecolor text-xs rounded-2xl p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100"
           value={seletColumn}
           onChange={(e) => setSeclectCoulmn(e.target.value)}
         >
           <option value="" selected></option>
           {selectBoard.columns.map((col, index) => (
-            <option key={index} value={col.name}>
+            <option className="text-modecolor " key={index} value={col.name}>
               {col.name}
             </option>
           ))}

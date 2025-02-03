@@ -13,9 +13,16 @@ function Header(){
         setIsOpen(!isOpen);
     };
    
+    const handeltoggle=()=>{
+         setIsOpen(false);
+        dispatch(setShowEditBoard(true))
+         
+    }
     
-    
-    
+    const handeltoggleDel=()=>{
+        setIsOpen(false);
+        dispatch(setDeleteModal(true))
+    }
     
 
 
@@ -46,8 +53,8 @@ function Header(){
                     {isOpen && (
                     <div className=" absolute bg-white w-32 z-50 top-20 shadow-md rounded-lg right-2 dark:bg-dark-primary-100 p-2">
                         <ul className=" cursor-pointer">
-                            <li className="text-gray-400 text-sm  font-medium " onClick={()=>dispatch(setShowEditBoard(true))}>Edit Board</li>
-                            <li className="text-red-400   text-sm font-meduim" onClick={()=>dispatch(setDeleteModal(true))} >Delete Board </li>
+                            <li className="text-gray-400 text-sm  font-medium " onClick={handeltoggle}>Edit Board</li>
+                            <li className="text-red-400   text-sm font-meduim" onClick={handeltoggleDel} >Delete Board </li>
                         </ul>
                     </div>
                     )}
