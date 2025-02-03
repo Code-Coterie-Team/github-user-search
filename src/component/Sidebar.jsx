@@ -7,6 +7,9 @@ import { setShowModalBoard } from "../features/modalSlice";
 
 
 import { setTheme } from "../features/themeSlice";
+import GridIcon from "../assets/Gridcon";
+import SunIcon from "../assets/SunIcon";
+import MoonSvg from "../assets/MoonSvg";
 
 function Sidebar() {
     const dispatch = useDispatch();
@@ -75,19 +78,19 @@ function Sidebar() {
                         <button  key={index} className={`text-gray-500  flex gap-6 font-semibold font-sans text-left w-10/12 hover:text-white hover:bg-purplelight text-base tracking-wide   items-center break-words  rounded-sm pl-6 
                           rounded-r-full h-12 hover:transition ease-out p-2 ${ item.Name === selectBoard.Name ?'bg-purpledo text-white':''}`} 
                             onClick={() => handleSelectBoard(item)}>
-                            <img src="./src/assets/grid.svg" alt="kanban-grid"  />
+                            <GridIcon/>
                             <span>{item.Name}</span>
                         </button>
                     )))}
                     <button className="text-purpledo pl-6 flex gap-4" onClick={() => dispatch(setShowModalBoard(true))}>
-                        <img src="./src/assets/grid.svg" alt="kanban-grid" className="fill-purpledo" />
+                        <GridIcon/>
                         <span className="font-semibold">+ Create New Board</span>
                     </button> 
                 </div>
                 
                 <div className="flex flex-col items-center justify-center p-8">
                     <div className="flex gap-6 justify-center items-center  p-4 rounded-md w-full h-10 bg-bgmain dark:bg-dark-primary-200">
-                        <img src="./src/assets/moon.svg" alt="" className="text-modecolor"/>
+                        <MoonSvg/>
                         <label className="flex cursor-pointer select-none items-center">
                             <div className=" relative">
                                 <input type="checkbox"
@@ -99,7 +102,7 @@ function Sidebar() {
                                 <div className={` bg-white absolute  h-4 w-4 rounded-full transition ${isChecked ?'left-1 top-1' : " top-1 left-7"}` }></div>
                             </div>
                         </label> 
-                        <img src="./src/assets/sun.svg" alt="" />
+                        <SunIcon />
                     </div>
     
                 </div>
