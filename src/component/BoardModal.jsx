@@ -81,8 +81,8 @@ function ModalBoard(){
     
     return(
 
-        <div className="bg-black/40 fixed w-full h-screen top-0 left-0">
-            <div ref={boradRef} className="fixed dark:bg-dark-primary-100 dark:text-white bg-white top-1/2 left-1/2  w-2/5 h-3/5 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-6 p-9 rounded-xl">
+        <div className="bg-black/40 fixed h-full w-full top-0 left-0">
+            <div ref={boradRef} className="fixed dark:bg-dark-primary-100 dark:text-white bg-white top-1/2 left-1/2  w-2/5  -translate-x-1/2 -translate-y-1/2 flex flex-col gap-6 p-9 rounded-xl">
             <span className="font-bold text-xl">Add New Board</span>
             <form className="flex text-xs flex-col">
                 <label className=" p-2 font-bold text-gray-400">Name</label>

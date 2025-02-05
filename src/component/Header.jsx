@@ -33,10 +33,11 @@ function Header(){
 
 
     return(
-        // conver grid min one 
+        
         <div className="bg-white  dark:bg-dark-primary-100 text-white  h-2/4 border-b dark:border-b-gray-500  grid  grid-cols-9 ">
             <div className="flex  border-r dark:border-r-gray-500  p-8  col-span-2 ">
-                <div className=" w-34 h-8 "><img src="./src/assets/logo-dark.8590e096.svg"  className="h-full w-full" alt="kanban board" /></div>
+                <div className=" hidden w-34 h-8 "><img src="/logo.svg"  className="h-full w-full" alt="kanban board" /></div>
+                <div className="  w-34 h-8 "><img src="/logolight.svg"  className="h-full w-full" alt="kanban board" /></div>
              </div>
             <div className=" p-6  dark:bg-dark-primary-100 dark:text-white flex  items-center justify-between   col-start-3  col-end-10 ">
                 <h1  className=" text-2xl font-bold text-black dark:text-white tracking-wide  p-2">{ selectBoard? selectBoard.Name : "borad dose not exist" }</h1>

@@ -42,7 +42,7 @@ useEffect(() => {
     return(
     
         <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-3  col-end-10  overflow-auto h-full max-w-screen-xl">
-            <div className=" flex gap-10 pl-6 "  style={{minHeight:'1500 px',minWidth: '1500px' }}>
+            <div className=" flex gap-10 pl-6 h-full w-full "  >
                 {selectBoard  && Array.isArray(selectBoard.columns) && selectBoard.columns.map((col, index) => {
                     const color=randomColor();
                     return(

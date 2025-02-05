@@ -84,7 +84,7 @@ function Sidebar() {
                     )))}
                     <button className="text-purpledo pl-6 flex gap-4" onClick={() => dispatch(setShowModalBoard(true))}>
                         <GridIcon/>
-                        <span className="font-semibold">+ Create New Board</span>
+                        <span className="font-semibold ">+ Create New Board</span>
                     </button> 
                 </div>
                 
