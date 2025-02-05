@@ -91,7 +91,7 @@ const ShowTaskModal=()=>{
             
        
         <div className="bg-black/40 fixed top-0 left-0 h-screen w-full">
-            <div  ref={modalRef} className="bg-white dark:bg-dark-primary-100   dark:text-white  fixed w-2/5 max-h-max flex flex-col  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-max p-8 rounded gap-8" >
+            <div  ref={modalRef} className="bg-white dark:bg-dark-primary-100   dark:text-white  fixed w-2/5 max-h-max flex flex-col  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-max p-8 rounded gap-4" >
                 <div className="flex justify-between  dark:bg-dark-primary-10 ">
                     
                     <div className="text-lg font-bold  dark:bg-dark-primary-100 ">{selectTask.title}</div>
@@ -110,14 +110,14 @@ const ShowTaskModal=()=>{
                         </div>
                     )}
                 </div>
-                <span className="text-gray-400  dark:bg-dark-primary-100 dark:text-white">{selectTask.description}</span>
-                <p className="text-gray-400">Subtasks {`(0 of ${selectTask.subtasks.length})`} </p>
-                <div  className="bg-gray-100 hover:bg-buttoncolor text-sm font-bold h-full p-4 rounded-md dark:hover:bg-purpledo  dark:bg-dark-primary-100 ">
+                <span className="text-gray-400 text-xs font-normal  dark:bg-dark-primary-100 dark:text-white">{selectTask.description}</span>
+                <p className="text-gray-400 text-xs">Subtasks {`(0 of ${selectTask.subtasks.length})`} </p>
+                <div  className="bg-gray-100 hover:bg-buttoncolor text-xs font-bold h-full p-4 rounded-md dark:hover:bg-purpledo  dark:bg-dark-primary-100 ">
                     
                     {selectTask.subtasks}
                 </div>
-                <label className="text-gray-400 text-sm  dark:bg-dark-primary-100 dark:text-white">current state</label>
-                <select className="rounded border-2 border-gray-200   p-2 hover:border-purpledo  dark:bg-dark-primary-100 " value={newColumn} onChange={handelChangeCoulmn} >
+                <label className="text-gray-400 text-xs  dark:bg-dark-primary-100 dark:text-white">current state</label>
+                <select className="rounded border-2 border-gray-200 text-xs font-medium  p-2 hover:border-purpledo  dark:bg-dark-primary-100 " value={newColumn} onChange={handelChangeCoulmn} >
                         <option  >
                             {selectBoard.columns.find(col => col.tasks.find(task => task.title === selectTask.title))?.name || 'Not Found'}
                         </option>

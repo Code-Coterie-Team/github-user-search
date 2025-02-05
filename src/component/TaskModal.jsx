@@ -75,7 +75,7 @@ function ModalTask() {
         <label className="text-modecolor text-xs ">Title</label>
         <input
           type="text"
-          className="border-2 border-gray-300 rounded p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100"
+          className="border-2 border-gray-300 text-sm font-normal  rounded p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100"
           required
           value={taskTitle}
           onChange={(e) => setTaskTitle(e.target.value)}
@@ -83,14 +83,14 @@ function ModalTask() {
         <label className=" text-modecolor text-xs  ">Description</label>
         <input
           type="text"
-          className="border-2  border-gray-300 h-20  roundedh-20 p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100"
+          className="border-2  border-gray-300 h-20 text-sm font-normal  roundedh-20 p-2 dark:bg-dark-primary-200 dark:border-dark-primary-100"
           value={taskDescription}
           onChange={(e) => setTaskDescription(e.target.value)}
         />
         <label className="text-modecolor text-xs  ">Subtasks</label>
         <input
           type="text"
-          className="border-2 p-2 border-gray-300 rounded  dark:bg-dark-primary-200 dark:border-dark-primary-100"
+          className="border-2 p-2 border-gray-300 text-sm font-normal  rounded  dark:bg-dark-primary-200 dark:border-dark-primary-100"
           required
           value={subtask}
           onChange={(e) => setSubtask(e.target.value)}
