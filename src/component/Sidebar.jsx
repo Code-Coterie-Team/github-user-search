@@ -60,9 +60,7 @@ function Sidebar() {
             dispatch(setSelectBoard(item));
 
             };
-    // const toggleSideBar=()=>{
-    //         setIsVisibleSideBar(!isVisibleSideBar)
-    // }
+   
   
     return (
 
@@ -72,7 +70,7 @@ function Sidebar() {
                 col-span-2 border-r justify-between pb-20 dark:border-r-gray-500 ${isVisibleSideBar ?'':'hidden'}` }>
                 <div className="flex flex-col  text-center  gap-2  ">
                     
-                    <div className="text-xs  tracking-widest text-gray-400 flex p-6 ">ALL  BOARDS {`(${boardsave.length})`}</div>
+                    <div className="text-xs  tracking-widest text-gray-400 flex p-4 ">ALL  BOARDS {`(${boardsave.length})`}</div>
                         {(Array.isArray(boardsave) && boardsave.map((item,index) => (
                           
                         <button  key={index} className={`text-gray-500  flex gap-6 font-semibold font-sans text-left w-10/12 hover:text-white hover:bg-purplelight text-base tracking-wide   items-center break-words  rounded-sm pl-6 
