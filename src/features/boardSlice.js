@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 
 const initialState = {
-    selectBoard:JSON.parse(localStorage.getItem('selectBoard')) ||(boradsave[0]),
+    selectBoard:JSON.parse(localStorage.getItem('selectBoard')) || {},
 };
 const boardSlice=createSlice({
     name:'board',
