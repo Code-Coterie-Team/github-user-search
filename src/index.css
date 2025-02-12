@@ -1,15 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* @layer utilities {
-  .font-antialiased {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-} */
-:root{
-  
-}
+
+
 body{
      -webkit-font-smoothing: antialiased;
     font-size: 16px;

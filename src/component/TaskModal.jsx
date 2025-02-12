@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectBoard } from "../features/boardSlice";
+import { setSelectBoard } from "../features/selectboardSlice";
 import { useRef, useState, useEffect } from "react";
 import { setShowTaskModal } from "../features/modalSlice";
 import { setSaveboard } from "../features/savedataSlice";

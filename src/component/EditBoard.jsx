@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectBoard } from "../features/boardSlice";
+import { setSelectBoard } from "../features/selectboardSlice";
 import { setSaveboard } from "../features/savedataSlice";
 import { setShowEditBoard } from "../features/modalSlice";
 
@@ -42,7 +42,9 @@ function EditBoard() {
     if (showEditBoardModal) {
       document.addEventListener("mousedown", handelClickEdit);
     }
-    return ()=>{ document.removeEventListener("mousedown", handelClickEdit);};
+    return () => {
+      document.removeEventListener("mousedown", handelClickEdit);
+    };
   }, [showEditBoardModal]);
 
   const addNewColumn = () => {
