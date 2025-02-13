@@ -9,6 +9,7 @@ import EditTask from './EditTask';
 import ModalTask from "./TaskModal";
 import DeleteTask from './DeletTask';
 import ShowTaskModal from './ShowTaskModal';
+import MiniSide from './MiniSide';
 
 const Layout = (props) => {
     const {showTaskModal}=useSelector((state)=>state.modals);
@@ -19,6 +20,7 @@ const Layout = (props) => {
     const {showModalBoard}=useSelector((state)=>state.modals);
     const {showEditTask}=useSelector((state)=>state.modals);
     const {showTaskDelete}=useSelector((state)=>state.modals);
+    const {sideOpen}=useSelector((state)=>state.modals)
     
   return (
     <div className='font-bold'>
@@ -33,6 +35,7 @@ const Layout = (props) => {
         {showEditTask && <EditTask/>}
         {showTaskDelete && <DeleteTask/>}
         {showTaskModalMain && <ShowTaskModal/>}
+        {sideOpen && <MiniSide/>}
         
         
         

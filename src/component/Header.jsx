@@ -1,6 +1,6 @@
 import {  useState  } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { setShowEditBoard ,setDeleteModal,setShowTaskModal} from "../features/modalSlice";
+import { setShowEditBoard ,setDeleteModal,setShowTaskModal,setSideOpen} from "../features/modalSlice";
 import ToggleIcon from "../assets/ToggleIcon";
 import MiniSide from "./MiniSide";
 
@@ -9,7 +9,7 @@ function Header(){
     const selectBoard=useSelector((state)=>state.board.selectBoard);
     const dispatch=useDispatch();
     const [isOpen,setIsOpen]=useState(false);
-    const [sideOpen,setSideOpen]=useState(false)
+    const {sideOpen}=useSelector((state)=>state.modals)
     
     
     const toggleMenu=()=>{
@@ -28,7 +28,7 @@ function Header(){
     }
     
    const toggleSide=()=>{
-        setSideOpen(!sideOpen);
+        dispatch(setSideOpen(!sideOpen));
    }
 
 
@@ -46,7 +46,7 @@ function Header(){
                 <button className="flex items-center md:hidden" onClick={toggleSide}> <ToggleIcon/></button>
                 
              </div>
-             {sideOpen && <MiniSide/>}
+             
             <div className=" p-6  dark:bg-dark-primary-100 dark:text-white flex  items-center justify-between   col-start-3  col-end-10 ">
                 <h1  className=" text-lg md:text-2xl font-bold text-black dark:text-white tracking-wide  p-2">{ selectBoard? selectBoard.Name : "borad dose not exist" }</h1>
                 <div className="flex justify-center  gap-6">

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectBoard } from "../features/selectboardSlice";
 
 import { setSaveboard } from "../features/savedataSlice";
-import { setShowModalBoard } from "../features/modalSlice";
+import { setShowModalBoard, setSideOpen } from "../features/modalSlice";
 import { setTheme } from "../features/themeSlice";
 import GridIcon from "../assets/Gridcon";
 import SunIcon from "../assets/SunIcon";
@@ -18,6 +18,7 @@ function MiniSide() {
   const { theme } = useSelector((state) => state.theme);
   const [isChecked, setIsChecked] = useState(false);
   const miniRef=useRef(null);
+  const {sideOpen}=useSelector((state)=>state.modals)
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -27,7 +28,10 @@ function MiniSide() {
       dispatch(setTheme("light"));
     }
   };
-
+  const showBoard=()=>{
+    dispatch(setShowModalBoard(true))
+    dispatch(setSideOpen(false))
+  }
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -51,10 +55,22 @@ function MiniSide() {
 
   const handleSelectBoard = (item) => {
     dispatch(setSelectBoard(item));
+    dispatch(setSideOpen(false));
   };
+  const handelClick=(event)=>{
+    if (miniRef.current && !miniRef.current.contains(event.target)) {
+          dispatch(setSideOpen(false));
+        }
+  }
+  useEffect(()=>{
+    if(sideOpen){
+        document.addEventListener('mousedown',handelClick)
+    }
+    return ()=>{document.removeEventListener('mousedown',handelClick)}
+  },[sideOpen])
 
   return (
-    <div className=" bg-black/40 fixed top-0 left-0  h-full w-full">
+    <div className=" bg-black/40 fixed top-0 left-0  h-full w-full md:hidden">
       <div ref={miniRef}  className="bg-white dark:bg-black w-1/2 h-max  rounded-md  fixed top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2  ">
         <div className="flex flex-col  text-center  gap-2  ">
           <div className="text-xs  tracking-widest text-gray-400 flex p-4 ">
@@ -78,7 +94,7 @@ function MiniSide() {
             ))}
           <button
             className="text-purpledo pl-6 flex gap-4"
-            onClick={() => dispatch(setShowModalBoard(true))}
+            onClick={showBoard}
           >
             <GridIcon />
             <span className="font-semibold ">+ Create New Board</span>

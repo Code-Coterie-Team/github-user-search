@@ -10,6 +10,7 @@ const initialState = {
     showEditTask:false,
     showTaskDelete:false,
     showTaskModalMain:false,
+    sideOpen:false,
 };
 const modalSlice=createSlice({
     name:'modals',
@@ -36,9 +37,12 @@ const modalSlice=createSlice({
         },
         setShowTaskModalMain:(state,action )=>{
             state.showTaskModalMain=action.payload
+        },
+        setSideOpen:(state,action)=>{
+            state.sideOpen=action.payload
         }
     },
 });
-export const {setDeleteModal,setShowTaskModal,setShowModalBoard,setShowEditBoard,setShowEditTask,setShowTaskDelete,setShowTaskModalMain}= modalSlice.actions;
+export const {setDeleteModal,setShowTaskModal,setShowModalBoard,setShowEditBoard,setShowEditTask,setShowTaskDelete,setShowTaskModalMain,setSideOpen}= modalSlice.actions;
 
 export default modalSlice.reducer;
