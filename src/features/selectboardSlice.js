@@ -1,9 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
+import { initialBoards } from './initialBoards';
 
 
 const initialState = {
-   selectBoard:{}
+   selectBoard:initialBoards[0]
 };
 const boardSlice=createSlice({
     name:'board',
