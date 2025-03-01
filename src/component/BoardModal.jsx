@@ -1,4 +1,4 @@
-import { setDeleteModal, setShowModalBoard } from "../features/modalSlice";
+import {  setShowModalBoard } from "../features/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setSaveboard } from "../features/savedataSlice";
 import { useRef, useState, useEffect } from "react";

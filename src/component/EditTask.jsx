@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectTask } from "../features/selecttaskSlice";
 import { useRef, useState, useEffect } from "react";
 import { setShowEditTask } from "../features/modalSlice";
 import { setSelectBoard } from "../features/selectboardSlice";
-import { use } from "react";
 
 function EditTask() {
   const { selectTask } = useSelector((state) => state.selectTask);
@@ -17,7 +15,7 @@ function EditTask() {
   const selectBoard = useSelector((state) => state.board.selectBoard);
   const [seletColumn, setSeclectCoulmn] = useState(null);
   const { showEditTask } = useSelector((state) => state.modals);
-  console.log(seletColumn);
+
 
   const handelEditTitle = (e) => {
     const newTitle = e.target.value;
