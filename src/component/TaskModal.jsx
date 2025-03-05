@@ -35,14 +35,14 @@ function ModalTask() {
 
       dispatch(setSelectBoard({ ...selectBoard, columns: updateColumns }));
 
-      const storeData = JSON.parse(localStorage.getItem("saveNewData" )||['']);
-      const updateData = storeData.map((item) => {
-        if (item.Name === selectBoard.Name) {
-          return { ...item, columns: updateColumns };
-        }
-        return item;
-      });
-      localStorage.setItem("saveNewData", JSON.stringify(updateData));
+      // const storeData = JSON.parse(localStorage.getItem("saveNewData" )||['']);
+      // const updateData = storeData.map((item) => {
+      //   if (item.Name === selectBoard.Name) {
+      //     return { ...item, columns: updateColumns };
+      //   }
+      //   return item;
+      // });
+      // localStorage.setItem("saveNewData", JSON.stringify(updateData));
 
       dispatch(setShowTaskModal(false));
 
@@ -52,15 +52,15 @@ function ModalTask() {
       setSeclectCoulmn("");
     }
   };
-  useEffect(()=>{
-    const savedData = JSON.parse(localStorage.getItem("saveNewData")) || [];
-    if (savedData.length > 0) {
-      const boardData = savedData.find((item) => item.Name === selectBoard.Name);
-      if (boardData) {
-        dispatch(setSelectBoard(boardData));
-      }
-    }
-  },[selectBoard.Name])
+  // useEffect(()=>{
+  //   const savedData = JSON.parse(localStorage.getItem("saveNewData")) || [];
+  //   if (savedData.length > 0) {
+  //     const boardData = savedData.find((item) => item.Name === selectBoard.Name);
+  //     if (boardData) {
+  //       dispatch(setSelectBoard(boardData));
+  //     }
+  //   }
+  // },[selectBoard.Name])
   useEffect(() => {
     if (showTaskModal) {
       document.addEventListener("mousedown", handelclickout);

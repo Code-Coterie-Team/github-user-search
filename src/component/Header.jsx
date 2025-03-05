@@ -48,7 +48,7 @@ function Header(){
              </div>
              
             <div className=" p-6  dark:bg-dark-primary-100 dark:text-white flex  items-center justify-between   col-start-3  col-end-10 ">
-                <h1  className=" text-lg md:text-2xl font-bold text-black dark:text-white tracking-wide  p-2">{ selectBoard? selectBoard.Name : "borad dose not exist" }</h1>
+                <h1  className=" text-lg md:text-2xl font-bold text-black dark:text-white tracking-wide  p-2">{ selectBoard ? selectBoard.Name : "No Board Found" }</h1>
                 <div className="flex justify-center  gap-6">
                     <button className="bg-purpledo w-12 h-8  text-center font-bold text-sm rounded-3xl text-white p-2 md:h-12 md:w-40" onClick={()=>dispatch(setShowTaskModal(true))}>+ <span className="hidden md:inline-block">Add New Task</span></button>
                     <div className=" relative p-2">

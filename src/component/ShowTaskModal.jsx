@@ -70,7 +70,7 @@ const ShowTaskModal = () => {
     });
     dispatch(setSaveboard(updateBoardSave));
 
-    localStorage.setItem("saveNewData", JSON.stringify(updateBoardSave));
+    // localStorage.setItem("saveNewData", JSON.stringify(updateBoardSave));
     setTaskShowModal(false);
   };
   const handelClickOut = (event) => {

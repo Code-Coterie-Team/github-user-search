@@ -35,7 +35,7 @@ function ModalBoard() {
     };
     dispatch(setSelectBoard(selectboarddata));
 
-    localStorage.setItem("saveNewData", JSON.stringify(updateData));
+    // localStorage.setItem("saveNewData", JSON.stringify(updateData));
 
     setNewColumnName([{ name: "", tasks: [] }]);
     setNewBoardName("");

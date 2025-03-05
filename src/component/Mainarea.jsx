@@ -1,31 +1,32 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectBoard } from "../features/selectboardSlice";
-import{setSelectTask} from "../features/selecttaskSlice"
-import {setShowTaskModalMain } from "../features/modalSlice";
-import { DndContext } from "@dnd-kit/core"
+import { setSelectTask } from "../features/selecttaskSlice";
+import { setShowTaskModalMain, setShowEditBoard } from "../features/modalSlice";
+import { DndContext } from "@dnd-kit/core";
 import DroppableColumn from "./Column";
 import TaskOfColumn from "./TaskofColumn";
+import { setSaveboard } from "../features/savedataSlice";
 
 function Main() {
   const selectBoard = useSelector((state) => state.board.selectBoard);
+  const { boardsave } = useSelector((state) => state.boardsave);
   const dispatch = useDispatch();
-  const [columns,setColumns]=useState((selectBoard?.columns)||[])
- 
+  const [columns, setColumns] = useState(selectBoard?.columns || []);
+
   const onDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
-  
+
     const taskTitle = active.id;
     const sourceColumnName = active.data.current.from;
     const destinationColumnName = over.id;
-  
+
     if (sourceColumnName === destinationColumnName) return;
-  
+
     let movedTask = null;
-  
-    // Update local columns state
-    const updatedColumns = columns
+
+    const updatedColumns = selectBoard?.columns
       .map((col) => {
         if (col.name === sourceColumnName) {
           const newTasks = col.tasks.filter((task) => {
@@ -45,55 +46,67 @@ function Main() {
         }
         return col;
       });
+
   
-    // Update local state
-    setColumns(updatedColumns);
-  
-    // Create an updated board object and dispatch to Redux
+
     const updatedBoard = { ...selectBoard, columns: updatedColumns };
+    localStorage.setItem("selectBoard", JSON.stringify(updatedBoard));
     dispatch(setSelectBoard(updatedBoard));
+  
+
+    const updateBoardSave=boardsave.map((board)=>
+    board.Name===selectBoard.Name ?{...board,columns:updatedColumns}:board)
+   
+
+      dispatch(setSaveboard(updateBoardSave))
+      // localStorage.setItem("saveNewData",JSON.stringify(updateBoardSave))
+
+    
+    
+
   };
-  
-  
+
   const openTaskDetail = (task) => {
     dispatch(setSelectTask(task));
     dispatch(setShowTaskModalMain(true));
-  
   };
-  useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("saveNewData") || "[]");
-    if (savedData.length > 0) {
-      const boardData = savedData.find(
-        (item) => item.Name === selectBoard.Name
-      );
-      if (boardData) {
-        dispatch(setSelectBoard(boardData));
-        setColumns(boardData.columns);
-      }
-    }
-  }, [selectBoard.Name]);
+  // useEffect(() => {
+  //   const savedData = JSON.parse(localStorage.getItem("saveNewData") || "[]");
+  //   if (savedData.length > 0) {
+  //     dispatch(setSaveboard(savedData))
+
+  //     const boardData = savedData.find(
+  //       (item) => item.Name === selectBoard?.Name
+  //     );
+  //     if (boardData) {
+  //       dispatch(setSelectBoard(boardData));
+  //       setColumns(boardData.columns);
+  //     }
+  //   }
+  // }, [selectBoard]);
 
   return (
     <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-1 col-end-10 md:col-start-3  h-[calc(100vh-80px)]  md:col-end-10  overflow-auto max-w-screen-xl">
       <div className=" flex gap-10 pl-6 h-full w-full">
-           <DndContext onDragEnd={onDragEnd}>
-           {selectBoard &&
-          Array.isArray(selectBoard.columns) &&
-          selectBoard.columns.map((col, colIndex)=>
-                 (
-                     <DroppableColumn key={colIndex} column={col}>
-                         {col.tasks.map((task,taskIndex)=>(
-                           <TaskOfColumn task={task} taskIndex={taskIndex} columnName={col.name} openTaskDetail={()=>openTaskDetail(task)} />
-                         ))}
+        <DndContext onDragEnd={onDragEnd}>
+          {selectBoard  &&selectBoard.columns.length>0 ? (
+            selectBoard.columns.map((col, colIndex) => (
+              <DroppableColumn key={colIndex} column={col}>
+                {col.tasks.map((task, taskIndex) => (
+                  <TaskOfColumn
+                    task={task}
+                    taskIndex={taskIndex}
+                    columnName={col.name}
+                    openTaskDetail={() => openTaskDetail(task)}
+                  />
+                ))}
+              </DroppableColumn>
+            )) ):(<div className="flex  w-full h-full font-normal justify-center items-center">This Board is empty create new Board</div>) }
+        </DndContext>
 
-                     </DroppableColumn>
-                 ))}
-           </DndContext>
-           
-        
         <div
           className={`${
-            Array.isArray(selectBoard.columns) && selectBoard.columns.length < 6
+                selectBoard && selectBoard.columns.length < 6
               ? `w-72 flex flex-col gap-6`
               : ` hidden`
           } `}

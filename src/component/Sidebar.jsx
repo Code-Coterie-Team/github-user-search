@@ -38,18 +38,20 @@ function Sidebar() {
     }
   }, [theme]);
 
+  // useEffect(() => {
+  //   // const storeData = localStorage.getItem("saveNewData");
+  //   // if (storeData) {
+  //   //   const parsedData = storeData ? JSON.parse(storeData) : [];
+  //   //   dispatch(setSaveboard(parsedData));
+  //   // }
+  // }, []);
   useEffect(() => {
-    const storeData = localStorage.getItem("saveNewData");
-    if (storeData) {
-      const parsedData = storeData ? JSON.parse(storeData) : [];
-      dispatch(setSaveboard(parsedData));
+    const storedBoard = localStorage.getItem("selectBoard");
+    if (storedBoard) {
+      const board = JSON.parse(storedBoard);
+      dispatch(setSelectBoard(board));
     }
-  }, []);
-  useEffect(() => {
-    if (selectBoard) {
-      localStorage.setItem("selectBoard", JSON.stringify(selectBoard));
-    }
-  }, [selectBoard]);
+  }, [dispatch]);
 
   const handleSelectBoard = (item) => {
     dispatch(setSelectBoard(item));
@@ -66,13 +68,13 @@ function Sidebar() {
         <div className="text-xs  tracking-widest text-gray-400 flex p-4 ">
           ALL BOARDS {`(${boardsave.length})`}
         </div>
-        {Array.isArray(boardsave) &&
-          boardsave.map((item, index) => (
+        {boardsave && boardsave.length>0 ?(
+          boardsave?.map((item, index) => (
             <button
               key={index}
               className={`text-gray-500  flex gap-1 font-semibold font-sans text-left w-10/12 hover:text-white hover:bg-purplelight text-xs md:text-base tracking-wide   items-center break-words  rounded-sm pl-2 md:pl-6 
                           rounded-r-full h-12 hover:transition ease-out  md:gap-6 ${
-                            item.Name === selectBoard.Name
+                            item.Name === selectBoard?.Name
                               ? "bg-purpledo text-white"
                               : ""
                           }`}
@@ -81,7 +83,7 @@ function Sidebar() {
               <GridIcon />
               <span>{item.Name}</span>
             </button>
-          ))}
+          ))):""}
         <button
           className="text-purpledo pl-6 flex gap-4"
           onClick={() => dispatch(setShowModalBoard(true))}

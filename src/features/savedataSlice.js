@@ -1,11 +1,10 @@
 import { createSlice} from "@reduxjs/toolkit";
 import { initialBoards } from "./initialBoards";
 
-
 const saveBoardSlice=createSlice({
     name:'boardsave',
     initialState:{
-       boardsave:initialBoards,
+        boardsave:  initialBoards
             
     },
     reducers:{

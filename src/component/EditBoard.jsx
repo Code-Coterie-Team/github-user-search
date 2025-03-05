@@ -29,7 +29,7 @@ function EditBoard() {
         board.Name === selectBoard.Name ? { ...board, columns: update } : board
       );
       dispatch(setSaveboard(updatesvae));
-      localStorage.setItem("saveNewData", JSON.stringify(updatesvae));
+      // localStorage.setItem("saveNewData", JSON.stringify(updatesvae));
     }
   };
 
@@ -64,7 +64,7 @@ function EditBoard() {
             : board
         );
         dispatch(setSaveboard(updatedSaveData));
-        localStorage.setItem("saveNewData", JSON.stringify(updatedSaveData));
+        // localStorage.setItem("saveNewData", JSON.stringify(updatedSaveData));
         setEditColumns(updatedColumns.map((col) => col.name));
 
         setNewColumnName("");
@@ -100,7 +100,7 @@ function EditBoard() {
     );
 
     dispatch(setSaveboard(updatedSaveData));
-    localStorage.setItem("saveNewData", JSON.stringify(updatedSaveData));
+    // localStorage.setItem("saveNewData", JSON.stringify(updatedSaveData));
     dispatch(setShowEditBoard(false));
   };
 
