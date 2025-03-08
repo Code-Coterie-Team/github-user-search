@@ -21,6 +21,7 @@ const ShowTaskModal = () => {
   );
   const dispatch = useDispatch();
 
+
   const handelEdit = () => {
     dispatch(setShowEditTask(true));
     dispatch(setShowTaskModalMain(false));
@@ -56,9 +57,10 @@ const ShowTaskModal = () => {
       }
       return col;
     });
-
-    dispatch(setSelectBoard({ ...selectBoard, columns: upateColumn }));
-    localStorage.setItem("selectBoard", JSON.stringify(selectBoard));
+    const updatedBoard = { ...selectBoard, columns: upateColumn };
+    dispatch(setSelectBoard(updatedBoard));
+    localStorage.setItem("selectBoard", JSON.stringify(updatedBoard));
+  
     const updateBoardSave = boardsave.map((item) => {
       if (item.Name === selectBoard.Name) {
         return {
@@ -68,10 +70,11 @@ const ShowTaskModal = () => {
       }
       return item;
     });
+
     dispatch(setSaveboard(updateBoardSave));
 
-    // localStorage.setItem("saveNewData", JSON.stringify(updateBoardSave));
-    setTaskShowModal(false);
+    localStorage.setItem("saveNewData", JSON.stringify(updateBoardSave));
+    dispatch(setTaskShowModal(false));
   };
   const handelClickOut = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -88,6 +91,16 @@ const ShowTaskModal = () => {
       document.removeEventListener("mousedown", handelClickOut);
     };
   }, [showTaskModalMain]);
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem("saveNewData")) || [];
+    if (savedData.length > 0) {
+      const boardData = savedData.find((item) => item.Name === selectBoard.Name);
+      if (boardData) {
+        dispatch(setSelectBoard(boardData));
+      }
+    }
+  }, []); 
+  
   return (
     <div className="bg-black/40 fixed top-0 left-0 h-screen w-full">
       <div

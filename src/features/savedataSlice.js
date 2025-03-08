@@ -10,6 +10,7 @@ const saveBoardSlice=createSlice({
     reducers:{
         setSaveboard:(state,action)=>{
             state.boardsave=action.payload ;
+            localStorage.setItem("saveNewData", JSON.stringify(action.payload));
         },
         
 }});

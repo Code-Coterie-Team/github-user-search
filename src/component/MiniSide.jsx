@@ -40,13 +40,13 @@ function MiniSide() {
     }
   }, [theme]);
 
-  // useEffect(() => {
-  //   const storeData = localStorage.getItem("saveNewData");
-  //   if (storeData) {
-  //     const parsedData = storeData ? JSON.parse(storeData) : [];
-  //     dispatch(setSaveboard(parsedData));
-  //   }
-  // }, []);
+  useEffect(() => {
+    const storeData = localStorage.getItem("saveNewData");
+    if (storeData) {
+      const parsedData = storeData ? JSON.parse(storeData) : [];
+      dispatch(setSaveboard(parsedData));
+    }
+  }, []);
   useEffect(() => {
     if (selectBoard) {
       localStorage.setItem("selectBoard", JSON.stringify(selectBoard));

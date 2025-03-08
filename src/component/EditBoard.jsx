@@ -100,7 +100,7 @@ function EditBoard() {
     );
 
     dispatch(setSaveboard(updatedSaveData));
-    // localStorage.setItem("saveNewData", JSON.stringify(updatedSaveData));
+    localStorage.setItem("saveNewData", JSON.stringify(updatedSaveData));
     dispatch(setShowEditBoard(false));
   };
 

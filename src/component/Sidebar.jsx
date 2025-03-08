@@ -17,7 +17,7 @@ function Sidebar() {
     (state) => state.boardsave || { boardsave: [] }
   );
   const { theme } = useSelector((state) => state.theme);
-  
+  console.log(selectBoard);
   const [isChecked, setIsChecked] = useState(false);
   const [isVisibleSideBar, setIsVisibleSideBar] = useState(true);
 
@@ -38,20 +38,20 @@ function Sidebar() {
     }
   }, [theme]);
 
-  // useEffect(() => {
-  //   // const storeData = localStorage.getItem("saveNewData");
-  //   // if (storeData) {
-  //   //   const parsedData = storeData ? JSON.parse(storeData) : [];
-  //   //   dispatch(setSaveboard(parsedData));
-  //   // }
-  // }, []);
+  useEffect(() => {
+    const storeData = localStorage.getItem("saveNewData");
+    if (storeData) {
+      const parsedData = storeData ? JSON.parse(storeData) : [];
+      dispatch(setSaveboard(parsedData));
+    }
+  }, []);
   useEffect(() => {
     const storedBoard = localStorage.getItem("selectBoard");
     if (storedBoard) {
       const board = JSON.parse(storedBoard);
       dispatch(setSelectBoard(board));
     }
-  }, [dispatch]);
+  }, []);
 
   const handleSelectBoard = (item) => {
     dispatch(setSelectBoard(item));

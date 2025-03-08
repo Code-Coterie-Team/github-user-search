@@ -12,7 +12,7 @@ function Main() {
   const selectBoard = useSelector((state) => state.board.selectBoard);
   const { boardsave } = useSelector((state) => state.boardsave);
   const dispatch = useDispatch();
-  const [columns, setColumns] = useState(selectBoard?.columns || []);
+  
 
   const onDragEnd = (event) => {
     const { active, over } = event;
@@ -59,7 +59,7 @@ function Main() {
    
 
       dispatch(setSaveboard(updateBoardSave))
-      // localStorage.setItem("saveNewData",JSON.stringify(updateBoardSave))
+      localStorage.setItem("saveNewData",JSON.stringify(updateBoardSave))
 
     
     
@@ -70,20 +70,9 @@ function Main() {
     dispatch(setSelectTask(task));
     dispatch(setShowTaskModalMain(true));
   };
-  // useEffect(() => {
-  //   const savedData = JSON.parse(localStorage.getItem("saveNewData") || "[]");
-  //   if (savedData.length > 0) {
-  //     dispatch(setSaveboard(savedData))
+  useEffect(()=>{
 
-  //     const boardData = savedData.find(
-  //       (item) => item.Name === selectBoard?.Name
-  //     );
-  //     if (boardData) {
-  //       dispatch(setSelectBoard(boardData));
-  //       setColumns(boardData.columns);
-  //     }
-  //   }
-  // }, [selectBoard]);
+  })
 
   return (
     <div className="bg-bgmain dark:bg-dark-primary-200 dark:text-white col-start-1 col-end-10 md:col-start-3  h-[calc(100vh-80px)]  md:col-end-10  overflow-auto max-w-screen-xl">

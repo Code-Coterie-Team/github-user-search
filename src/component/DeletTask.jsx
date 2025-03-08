@@ -13,15 +13,15 @@ function DeleteTask() {
       ...col,
       tasks: col.tasks.filter((task) => task.title !== selectTask.title),
     }));
-    // const storeData = JSON.parse(localStorage.getItem("saveNewData"));
-    // const updateData = storeData?.map((item) => {
-    //   if (item.Name === selectBoard.Name) {
-    //     return { ...item, columns: updateTaskData };
-    //   }
-    //   return item;
-    // });
+    const storeData = JSON.parse(localStorage.getItem("saveNewData"));
+    const updateData = storeData?.map((item) => {
+      if (item.Name === selectBoard.Name) {
+        return { ...item, columns: updateTaskData };
+      }
+      return item;
+    });
 
-    // localStorage.setItem("saveNewData", JSON.stringify(updateData));
+    localStorage.setItem("saveNewData", JSON.stringify(updateData));
 
     dispatch(setSelectBoard({ ...selectBoard, columns: updateTaskData }));
 

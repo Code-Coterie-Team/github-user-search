@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectBoard } from "../features/selectboardSlice";
+import { setSelectBoard ,loadSavedBoard} from "../features/selectboardSlice";
 import { useRef, useState, useEffect } from "react";
 import { setShowTaskModal } from "../features/modalSlice";
+import { setSaveboard } from "../features/savedataSlice";
 
 
 function ModalTask() {
@@ -12,7 +13,7 @@ function ModalTask() {
   const [taskDescription, setTaskDescription] = useState("");
   const [subtask, setSubtask] = useState([]);
   const [seletColumn, setSeclectCoulmn] = useState("");
-
+  const {boardsave}=useSelector((state)=>state.boardsave)
   const { showTaskModal } = useSelector((state) => state.modals);
   const handelSaveTask = () => {
     if (selectBoard && seletColumn) {
@@ -34,16 +35,17 @@ function ModalTask() {
       });
 
       dispatch(setSelectBoard({ ...selectBoard, columns: updateColumns }));
-
-      // const storeData = JSON.parse(localStorage.getItem("saveNewData" )||['']);
-      // const updateData = storeData.map((item) => {
-      //   if (item.Name === selectBoard.Name) {
-      //     return { ...item, columns: updateColumns };
-      //   }
-      //   return item;
-      // });
-      // localStorage.setItem("saveNewData", JSON.stringify(updateData));
-
+      const updateboard=boardsave.map((item)=>{
+        if(item.Name===selectBoard.Name){
+          return{
+            ...item,
+            columns:updateColumns,
+          }
+        }
+        return item
+      }
+      )
+      dispatch(setSaveboard(updateboard))
       dispatch(setShowTaskModal(false));
 
       setTaskTitle("");
@@ -52,15 +54,10 @@ function ModalTask() {
       setSeclectCoulmn("");
     }
   };
-  // useEffect(()=>{
-  //   const savedData = JSON.parse(localStorage.getItem("saveNewData")) || [];
-  //   if (savedData.length > 0) {
-  //     const boardData = savedData.find((item) => item.Name === selectBoard.Name);
-  //     if (boardData) {
-  //       dispatch(setSelectBoard(boardData));
-  //     }
-  //   }
-  // },[selectBoard.Name])
+  useEffect(() => {
+    dispatch(loadSavedBoard());
+  }, [dispatch]);
+
   useEffect(() => {
     if (showTaskModal) {
       document.addEventListener("mousedown", handelclickout);
