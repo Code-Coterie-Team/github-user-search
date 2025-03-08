@@ -12,7 +12,7 @@ function Main() {
   const selectBoard = useSelector((state) => state.board.selectBoard);
   const { boardsave } = useSelector((state) => state.boardsave);
   const dispatch = useDispatch();
-  
+  const color=['#49C4E5','#8471F2','#67E2AE','#e5a449','#2a3fdb','#c36e6e']
 
   const onDragEnd = (event) => {
     const { active, over } = event;
@@ -80,7 +80,7 @@ function Main() {
         <DndContext onDragEnd={onDragEnd}>
           {selectBoard  &&selectBoard.columns.length>0 ? (
             selectBoard.columns.map((col, colIndex) => (
-              <DroppableColumn key={colIndex} column={col}>
+              <DroppableColumn key={colIndex} column={col} item={color[colIndex]}>
                 {col.tasks.map((task, taskIndex) => (
                   <TaskOfColumn
                     task={task}

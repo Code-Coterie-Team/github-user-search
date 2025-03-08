@@ -2,20 +2,13 @@
 
 
 import { useDroppable } from "@dnd-kit/core";
-const DroppableColumn = ({ column, children ,key}) => {
+const DroppableColumn = ({ column, children ,key,item}) => {
   const { isOver, setNodeRef } = useDroppable({
     id: column.name,
   });
 
  
-  const randomColor = () => {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-
-    return `rgb(${r}, ${g} ,${b})`;
-  };
-
+  
   return (
     <div ref={setNodeRef} key={key} className="flex gap-10 pl-6 h-full w-full">
       
@@ -23,10 +16,13 @@ const DroppableColumn = ({ column, children ,key}) => {
             <div className="flex flex-col w-72  " >
               <div className="text-center   ">
                 <div className="flex gap-4  items-center p-4 ">
-                  <div
+                 
+                    <div
+          
                     className={`h-4 w-4 rounded-full `}
-                    
-                  ></div>
+                    style={{background:item}}
+                   ></div>
+                 
                   <span className="text-gray-400  text-xs tracking-widest ">
                     {`${column?.name} (${column?.tasks?.length})`}
                   </span>

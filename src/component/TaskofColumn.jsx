@@ -20,7 +20,7 @@ const TaskOfColumn = ({ task, columnName, taskIndex,openTaskDetail}) => {
         key={taskIndex}
         className="  h-30 w-full  bg-white  p-5 dark:bg-dark-primary-100 dark:text-white hover:opacity-20 cursor-pointer rounded-lg shadow-md text-left "
         onClick={()=>{
-          console.log("Task clicked:", task);
+          
           openTaskDetail(task)}}
       >
         <h4 className=" text-sm font-bold p-2">{task.title}</h4>
