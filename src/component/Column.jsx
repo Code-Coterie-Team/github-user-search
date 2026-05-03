@@ -2,7 +2,7 @@
 
 
 import { useDroppable } from "@dnd-kit/core";
-const DroppableColumn = ({ column, children ,key,item}) => {
+const DroppableColumn = ({ column, children ,index,item}) => {
   const { isOver, setNodeRef } = useDroppable({
     id: column.name,
   });
@@ -10,7 +10,7 @@ const DroppableColumn = ({ column, children ,key,item}) => {
  
   
   return (
-    <div ref={setNodeRef} key={key} className="flex gap-10 pl-6 h-full w-full">
+    <div ref={setNodeRef} key={index} className="flex gap-10 pl-6 h-full w-full">
       
          
             <div className="flex flex-col w-72  " >

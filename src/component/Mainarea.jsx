@@ -84,6 +84,7 @@ function Main() {
                 {col.tasks.map((task, taskIndex) => (
                   <TaskOfColumn
                     task={task}
+                    key={taskIndex}
                     taskIndex={taskIndex}
                     columnName={col.name}
                     openTaskDetail={() => openTaskDetail(task)}

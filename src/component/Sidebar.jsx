@@ -17,7 +17,6 @@ function Sidebar() {
     (state) => state.boardsave || { boardsave: [] }
   );
   const { theme } = useSelector((state) => state.theme);
-  console.log(selectBoard);
   const [isChecked, setIsChecked] = useState(false);
   const [isVisibleSideBar, setIsVisibleSideBar] = useState(true);
 

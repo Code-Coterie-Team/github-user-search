@@ -22,7 +22,7 @@ function DeleteTask() {
     });
 
     localStorage.setItem("saveNewData", JSON.stringify(updateData));
-
+     
     dispatch(setSelectBoard({ ...selectBoard, columns: updateTaskData }));
 
     dispatch(setShowTaskDelete(false));
